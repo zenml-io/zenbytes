@@ -11,31 +11,15 @@
 #  or implied. See the License for the specific language governing
 #  permissions and limitations under the License.
 
-import os
-
-import mlflow  # type: ignore [import]
-import numpy as np  # type: ignore [import]
-import pandas as pd  # type: ignore [import]
-import requests
 from steps.deployment_trigger import deployment_trigger
 from steps.discord_bot import discord_alert
 from steps.evaluator import tf_evaluator
 from steps.importer import importer_mnist
 from steps.normailzer import normalizer
 from steps.trainer import TrainerConfig, tf_trainer  # type: ignore [import]
-import tensorflow as tf  # type: ignore [import]
 
-from zenml.integrations.mlflow.mlflow_step_decorator import enable_mlflow
-from zenml.integrations.mlflow.services import MLFlowDeploymentService
 from zenml.integrations.mlflow.steps import mlflow_deployer_step
-from zenml.pipelines import pipeline
 from zenml.services import load_last_service_from_step
-from zenml.steps import BaseStepConfig, Output, StepContext, step
-
-# Path to a pip requirements file that contains requirements necessary to run
-# the pipeline
-
-
 from steps.splitter import reference_data_splitter, TrainingSplitConfig
 from pipelines.training_pipeline import continuous_deployment_pipeline
 from zenml.integrations.mlflow.steps import MLFlowDeployerConfig
