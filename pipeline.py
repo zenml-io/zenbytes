@@ -16,7 +16,13 @@ import os
 import mlflow  # type: ignore [import]
 import numpy as np  # type: ignore [import]
 import pandas as pd  # type: ignore [import]
-import requests  # type: ignore [import]
+import requests
+from steps.deployment_trigger import deployment_trigger
+from steps.discord_bot import discord_alert
+from steps.evaluator import tf_evaluator
+from steps.importer import importer_mnist
+from steps.normailzer import normalizer
+from steps.trainer import TrainerConfig, tf_trainer  # type: ignore [import]
 import tensorflow as tf  # type: ignore [import]
 
 from zenml.integrations.mlflow.mlflow_step_decorator import enable_mlflow
@@ -28,213 +34,50 @@ from zenml.steps import BaseStepConfig, Output, StepContext, step
 
 # Path to a pip requirements file that contains requirements necessary to run
 # the pipeline
-requirements_file = os.path.join(os.path.dirname(__file__), "requirements.txt")
 
 
-class TrainerConfig(BaseStepConfig):
-    """Trainer params"""
+from steps.splitter import reference_data_splitter, TrainingSplitConfig
+from pipelines.training_pipeline import continuous_deployment_pipeline
+from zenml.integrations.mlflow.steps import MLFlowDeployerConfig
 
-    epochs: int = 1
-    lr: float = 0.001
+from zenml.integrations.evidently.steps import (
+    EvidentlyProfileConfig,
+    EvidentlyProfileStep,
+)
 
+drift_data_split_config = TrainingSplitConfig(
+    row=30000,
+    add_noise=True)
 
-@step
-def importer_mnist() -> Output(
-    x_train=np.ndarray, y_train=np.ndarray, x_test=np.ndarray, y_test=np.ndarray
-):
-    """Download the MNIST data store it as an artifact"""
-    (x_train, y_train), (
-        x_test,
-        y_test,
-    ) = tf.keras.datasets.mnist.load_data()
-    return x_train, y_train, x_test, y_test
-
-
-@step
-def normalizer(
-    x_train: np.ndarray, x_test: np.ndarray
-) -> Output(x_train_normed=np.ndarray, x_test_normed=np.ndarray):
-    """Normalize the values for all the images so they are between 0 and 1"""
-    x_train_normed = x_train / 255.0
-    x_test_normed = x_test / 255.0
-    return x_train_normed, x_test_normed
-
-
-# Define the step and enable MLflow (n.b. order of decorators is important here)
-@enable_mlflow
-@step
-def tf_trainer(
-    config: TrainerConfig,
-    x_train: np.ndarray,
-    y_train: np.ndarray,
-) -> tf.keras.Model:
-    """Train a neural net from scratch to recognize MNIST digits return our
-    model or the learner"""
-    model = tf.keras.Sequential(
-        [
-            tf.keras.layers.Flatten(input_shape=(28, 28)),
-            tf.keras.layers.Dense(10),
-        ]
-    )
-
-    model.compile(
-        optimizer=tf.keras.optimizers.Adam(config.lr),
-        loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
-        metrics=["accuracy"],
-    )
-
-    mlflow.tensorflow.autolog()
-    model.fit(
-        x_train,
-        y_train,
-        epochs=config.epochs,
-    )
-
-    # write model
-    return model
-
-
-# Define the step and enable MLflow (n.b. order of decorators is important here)
-@enable_mlflow
-@step
-def tf_evaluator(
-    x_test: np.ndarray,
-    y_test: np.ndarray,
-    model: tf.keras.Model,
-) -> float:
-    """Calculate the loss for the model for each epoch in a graph"""
-
-    _, test_acc = model.evaluate(x_test, y_test, verbose=2)
-    mlflow.log_metric("val_accuracy", test_acc)
-    return test_acc
-
-
-class DeploymentTriggerConfig(BaseStepConfig):
-    """Parameters that are used to trigger the deployment"""
-
-    
-
-
-@step
-def deployment_trigger(
-    drift_report: dict,
-    config: DeploymentTriggerConfig,
-) -> bool:
-    """Implements a simple model deployment trigger that looks at the
-    drift report and deploys if there's none"""
-
-    drift = drift_report["data_drift"]["data"]["metrics"]["dataset_drift"]
-
-    if drift:
-        return True
-    else:
-        return False
-
+evidently_profile_config = EvidentlyProfileConfig(
+    column_mapping=None,
+    profile_sections=["datadrift"])
 
 model_deployer = mlflow_deployer_step(name="model_deployer")
 
+def main(epochs: int = 5, lr: float = 0.003, min_accuracy: float = 0.92, stop_service: bool = True):
 
-class MLFlowDeploymentLoaderStepConfig(BaseStepConfig):
-    """MLflow deployment getter configuration
-    Attributes:
-        pipeline_name: name of the pipeline that deployed the MLflow prediction
-            server
-        step_name: the name of the step that deployed the MLflow prediction
-            server
-        running: when this flag is set, the step only returns a running service
-    """
-
-    pipeline_name: str
-    step_name: str
-    running: bool = True
-
-
-@step(enable_cache=False)
-def prediction_service_loader(
-    config: MLFlowDeploymentLoaderStepConfig, context: StepContext
-) -> MLFlowDeploymentService:
-    """Get the prediction service started by the deployment pipeline"""
-
-    service = load_last_service_from_step(
-        pipeline_name=config.pipeline_name,
-        step_name=config.step_name,
-        step_context=context,
-        running=config.running,
-    )
-    if not service:
-        raise RuntimeError(
-            f"No MLflow prediction service deployed by the "
-            f"{config.step_name} step in the {config.pipeline_name} pipeline "
-            f"is currently running."
+    if stop_service:
+        service = load_last_service_from_step(
+            pipeline_name="continuous_deployment_pipeline",
+            step_name="model_deployer",
+            running=True,
         )
+        if service:
+            service.stop(timeout=10)
+        return
 
-    return service
-
-
-def get_data_from_api():
-    url = (
-        "https://storage.googleapis.com/zenml-public-bucket/mnist"
-        "/mnist_handwritten_test.json"
+    # Initialize a continuous deployment pipeline run
+    deployment = continuous_deployment_pipeline(
+        importer=importer_mnist(),
+        normalizer=normalizer(),
+        trainer=tf_trainer(config=TrainerConfig(epochs=epochs, lr=lr)),
+        evaluator=tf_evaluator(),
+        drift_splitter=reference_data_splitter(drift_data_split_config),
+        drift_detector=EvidentlyProfileStep(evidently_profile_config),
+        deployment_trigger=deployment_trigger(),
+        model_deployer=model_deployer(config=MLFlowDeployerConfig(workers=3)),
+        discord_bot=discord_alert()
     )
 
-    df = pd.DataFrame(requests.get(url).json())
-    data = df["image"].map(lambda x: np.array(x)).values
-    data = np.array([x.reshape(28, 28) for x in data])
-    return data
-
-
-@step(enable_cache=False)
-def dynamic_importer() -> Output(data=np.ndarray):
-    """Downloads the latest data from a mock API."""
-    data = get_data_from_api()
-    return data
-
-
-@step
-def predictor(
-    service: MLFlowDeploymentService,
-    data: np.ndarray,
-) -> Output(predictions=np.ndarray):
-    """Run a inference request against a prediction service"""
-
-    service.start(timeout=10)  # should be a NOP if already started
-    prediction = service.predict(data)
-    prediction = prediction.argmax(axis=-1)
-
-    return prediction
-
-
-@pipeline(enable_cache=True, requirements_file=requirements_file)
-def continuous_deployment_pipeline(
-    importer,
-    normalizer,
-    trainer,
-    evaluator,
-    drift_splitter,
-    drift_detector,
-    deployment_trigger,
-    model_deployer,
-    discord_bot
-):
-    # Link all the steps artifacts together
-    x_train, y_train, x_test, y_test = importer()
-    x_trained_normed, x_test_normed = normalizer(x_train=x_train, x_test=x_test)
-    model = trainer(x_train=x_trained_normed, y_train=y_train)
-    accuracy = evaluator(x_test=x_test_normed, y_test=y_test, model=model)
-    reference_dataset, new_dataset = drift_splitter(x_train)
-    drift_report, _ = drift_detector(reference_dataset, new_dataset)
-    deployment_decision = deployment_trigger(drift_report)
-    model_deployer(deployment_decision)
-    discord_bot(deployment_decision)
-
-
-@pipeline(enable_cache=True, requirements_file=requirements_file)
-def inference_pipeline(
-    dynamic_importer,
-    prediction_service_loader,
-    predictor,
-):
-    # Link all the steps artifacts together
-    batch_data = dynamic_importer()
-    model_deployment_service = prediction_service_loader()
-    predictor(model_deployment_service, batch_data)
+    deployment.run()
