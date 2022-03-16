@@ -13,6 +13,7 @@ class TrainingSplitConfig(BaseStepConfig):
             to be less than 60,000.
     """
     row: int
+    add_noise: bool
 
 @step
 def reference_data_splitter(
@@ -25,4 +26,17 @@ def reference_data_splitter(
 
     new_data = dataset[config.row:]
 
+    if config.add_noise:
+        new_data = _add_awgn(new_data)
+
     return reference_dataset, new_data
+
+def _add_awgn(dataset: pd.DataFrame):
+    import numpy as np 
+    mu, sigma = 0, 0.1 
+    # creating a noise with the same dimension as the dataset
+    noise = np.random.normal(mu, sigma, dataset.shape)
+    print(noise)
+
+    new_data = dataset + noise
+    return new_data
