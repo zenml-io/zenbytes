@@ -1,17 +1,8 @@
 import os
 
-import mlflow  # type: ignore [import]
-import numpy as np  # type: ignore [import]
-import pandas as pd  # type: ignore [import]
-import requests  # type: ignore [import]
 import tensorflow as tf  # type: ignore [import]
 
-from zenml.integrations.mlflow.mlflow_step_decorator import enable_mlflow
-from zenml.integrations.mlflow.services import MLFlowDeploymentService
-from zenml.integrations.mlflow.steps import mlflow_deployer_step
 from zenml.pipelines import pipeline
-from zenml.services import load_last_service_from_step
-from zenml.steps import BaseStepConfig, Output, StepContext, step
 
 # Path to a pip requirements file that contains requirements necessary to run
 # the pipeline
