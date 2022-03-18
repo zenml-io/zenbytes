@@ -13,14 +13,12 @@
 
 from steps.deployment_trigger import deployment_trigger
 from steps.discord_bot import discord_alert
-from steps.evaluator import tf_evaluator
-from steps.importer import importer_mnist
-from steps.normailzer import normalizer
-from steps.trainer import TrainerConfig, tf_trainer  # type: ignore [import]
+from steps.evaluator import evaluator
+from steps.importer import importer, get_reference_data
+from steps.trainer import svc_trainer_mlflow # type: ignore [import]
 
 from zenml.integrations.mlflow.steps import mlflow_deployer_step
 from zenml.services import load_last_service_from_step
-from steps.splitter import reference_data_splitter, TrainingSplitConfig
 from pipelines.training_pipeline import continuous_deployment_pipeline
 from zenml.integrations.mlflow.steps import MLFlowDeployerConfig
 
@@ -29,17 +27,13 @@ from zenml.integrations.evidently.steps import (
     EvidentlyProfileStep,
 )
 
-drift_data_split_config = TrainingSplitConfig(
-    row=30000,
-    add_noise=True)
-
 evidently_profile_config = EvidentlyProfileConfig(
     column_mapping=None,
     profile_sections=["datadrift"])
 
 model_deployer = mlflow_deployer_step(name="model_deployer")
 
-def main(epochs: int = 5, lr: float = 0.003, min_accuracy: float = 0.92, stop_service: bool = True):
+def main(epochs: int = 5, lr: float = 0.003, min_accuracy: float = 0.92, stop_service: bool = False):
 
     if stop_service:
         service = load_last_service_from_step(
@@ -53,15 +47,21 @@ def main(epochs: int = 5, lr: float = 0.003, min_accuracy: float = 0.92, stop_se
 
     # Initialize a continuous deployment pipeline run
     deployment = continuous_deployment_pipeline(
-        importer=importer_mnist(),
-        normalizer=normalizer(),
-        trainer=tf_trainer(config=TrainerConfig(epochs=epochs, lr=lr)),
-        evaluator=tf_evaluator(),
-        drift_splitter=reference_data_splitter(drift_data_split_config),
-        drift_detector=EvidentlyProfileStep(evidently_profile_config),
-        deployment_trigger=deployment_trigger(),
-        model_deployer=model_deployer(config=MLFlowDeployerConfig(workers=3)),
-        discord_bot=discord_alert()
-    )
+        importer=importer(),
+        trainer=svc_trainer_mlflow(),
+        evaluator=evaluator(),
 
+        # EvidentlyProfileStep takes reference_dataset and comparison dataset
+        get_reference_data=get_reference_data(),
+        drift_detector=EvidentlyProfileStep(config=evidently_profile_config),
+
+        # Add discord
+        alerter=discord_alert(),
+
+        deployment_trigger=deployment_trigger(),
+        model_deployer=model_deployer(config=MLFlowDeployerConfig(workers=1)),
+    )
     deployment.run()
+
+if __name__ == '__main__':
+    main()
