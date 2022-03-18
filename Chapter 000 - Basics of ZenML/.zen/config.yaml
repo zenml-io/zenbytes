@@ -1,21 +1,12 @@
-active_stack_name: local_kubeflow_stack
+active_stack_name: local_stack
 stack_components:
   artifact_store:
     local_artifact_store: local
-  container_registry:
-    local_registry: default
   metadata_store:
     local_metadata_store: sqlite
   orchestrator:
-    kubeflow_orchestrator: kubeflow
     local_orchestrator: local
 stacks:
-  local_kubeflow_stack:
-    artifact_store: local_artifact_store
-    container_registry: local_registry
-    metadata_store: local_metadata_store
-    orchestrator: kubeflow_orchestrator
-    step_operator: null
   local_stack:
     artifact_store: local_artifact_store
     container_registry: null
