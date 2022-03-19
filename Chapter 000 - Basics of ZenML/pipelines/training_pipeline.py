@@ -4,9 +4,8 @@ from zenml.pipelines import pipeline
 
 # Path to a pip requirements file that contains requirements necessary to run
 # the pipeline
-requirements_file = os.path.join(os.path.dirname(__file__), "requirements.txt")
 
-@pipeline(enable_cache=False, requirements_file=requirements_file, required_integrations=['mlflow', 'evidently'])
+@pipeline(enable_cache=False, requirements_file='../requirements.txt', required_integrations=['mlflow', 'evidently'])
 def continuous_deployment_pipeline(
     importer,
     trainer,
