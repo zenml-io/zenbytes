@@ -1,4 +1,4 @@
-# Zenbytes
+# ZenBytes
 
 ![ZenML Logo](_assets/Logo/zenml.svg)
 
