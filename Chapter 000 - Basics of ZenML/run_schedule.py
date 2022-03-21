@@ -18,10 +18,9 @@ from steps.evaluator import evaluator
 from steps.importer import importer, get_reference_data
 from steps.trainer import svc_trainer_mlflow # type: ignore [import]
 from zenml.pipelines import Schedule
-from zenml.integrations.mlflow.steps import mlflow_deployer_step
+from zenml.integrations.mlflow.steps import mlflow_deployer_step, MLFlowDeployerConfig
 from zenml.services import load_last_service_from_step
-from pipelines.training_pipeline import continuous_deployment_pipeline
-from zenml.integrations.mlflow.steps import MLFlowDeployerConfig
+from pipelines.training_pipeline import continuous_deployment_pipeline_kf
 from datetime import datetime
 
 from zenml.integrations.evidently.steps import (
@@ -29,17 +28,17 @@ from zenml.integrations.evidently.steps import (
     EvidentlyProfileStep,
 )
 
-evidently_profile_config = EvidentlyProfileConfig(
-    column_mapping=None,
-    profile_sections=["datadrift"])
-
-model_deployer = mlflow_deployer_step(name="model_deployer")
-
 def main(interval_second: int = 300, epochs: int = 5, lr: float = 0.003, min_accuracy: float = 0.92, stop_service: bool = False):
+
+    evidently_profile_config = EvidentlyProfileConfig(
+        column_mapping=None,
+        profile_sections=["datadrift"])
+
+    model_deployer = mlflow_deployer_step(name="model_deployer")
 
     if stop_service:
         service = load_last_service_from_step(
-            pipeline_name="continuous_deployment_pipeline",
+            pipeline_name="continuous_deployment_pipeline_kf",
             step_name="model_deployer",
             running=True,
         )
@@ -48,7 +47,7 @@ def main(interval_second: int = 300, epochs: int = 5, lr: float = 0.003, min_acc
         return
 
     # Initialize a continuous deployment pipeline run
-    deployment = continuous_deployment_pipeline(
+    deployment = continuous_deployment_pipeline_kf(
         importer=importer(),
         trainer=svc_trainer_mlflow(),
         evaluator=evaluator(),
@@ -70,7 +69,7 @@ def main(interval_second: int = 300, epochs: int = 5, lr: float = 0.003, min_acc
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "interval_second", type=int
+        "--interval_second", "-i", type=int, default=120
     )
     args = parser.parse_args()
     main(interval_second=args.interval_second)

@@ -6,7 +6,7 @@ from zenml.pipelines import pipeline
 # the pipeline
 
 @pipeline(enable_cache=False, requirements_file='../requirements.txt', required_integrations=['mlflow', 'evidently'])
-def continuous_deployment_pipeline(
+def continuous_deployment_pipeline_kf(
     importer,
     trainer,
     evaluator,

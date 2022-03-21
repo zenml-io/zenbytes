@@ -17,23 +17,23 @@ from steps.evaluator import evaluator
 from steps.importer import importer, get_reference_data
 from steps.trainer import svc_trainer_mlflow # type: ignore [import]
 
-from zenml.integrations.mlflow.steps import mlflow_deployer_step
+from zenml.integrations.mlflow.steps import mlflow_deployer_step, MLFlowDeployerConfig
 from zenml.services import load_last_service_from_step
 from pipelines.training_pipeline import continuous_deployment_pipeline_kf
-from zenml.integrations.mlflow.steps import MLFlowDeployerConfig
 
 from zenml.integrations.evidently.steps import (
     EvidentlyProfileConfig,
     EvidentlyProfileStep,
 )
 
-evidently_profile_config = EvidentlyProfileConfig(
-    column_mapping=None,
-    profile_sections=["datadrift"])
-
-model_deployer = mlflow_deployer_step(name="model_deployer")
 
 def main(epochs: int = 5, lr: float = 0.003, min_accuracy: float = 0.92, stop_service: bool = False):
+
+    evidently_profile_config = EvidentlyProfileConfig(
+        column_mapping=None,
+        profile_sections=["datadrift"])
+
+    model_deployer = mlflow_deployer_step(name="model_deployer")
 
     if stop_service:
         service = load_last_service_from_step(
