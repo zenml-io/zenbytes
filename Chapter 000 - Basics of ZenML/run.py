@@ -19,7 +19,7 @@ from steps.trainer import svc_trainer_mlflow # type: ignore [import]
 
 from zenml.integrations.mlflow.steps import mlflow_deployer_step
 from zenml.services import load_last_service_from_step
-from pipelines.training_pipeline import continuous_deployment_pipeline
+from pipelines.training_pipeline import continuous_deployment_pipeline_kf
 from zenml.integrations.mlflow.steps import MLFlowDeployerConfig
 
 from zenml.integrations.evidently.steps import (
@@ -37,7 +37,7 @@ def main(epochs: int = 5, lr: float = 0.003, min_accuracy: float = 0.92, stop_se
 
     if stop_service:
         service = load_last_service_from_step(
-            pipeline_name="continuous_deployment_pipeline",
+            pipeline_name="continuous_deployment_pipeline_kf",
             step_name="model_deployer",
             running=True,
         )
@@ -46,7 +46,7 @@ def main(epochs: int = 5, lr: float = 0.003, min_accuracy: float = 0.92, stop_se
         return
 
     # Initialize a continuous deployment pipeline run
-    deployment = continuous_deployment_pipeline(
+    deployment = continuous_deployment_pipeline_kf(
         importer=importer(),
         trainer=svc_trainer_mlflow(),
         evaluator=evaluator(),
