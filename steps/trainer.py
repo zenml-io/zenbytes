@@ -24,6 +24,19 @@ from zenml.integrations.mlflow.mlflow_step_decorator import enable_mlflow
 import mlflow
 
 
+
+@step
+def svc_trainer(
+    X_train: np.ndarray,
+    y_train: np.ndarray,
+) -> ClassifierMixin:
+    """Train another simple sklearn classifier for the digits dataset."""
+    print("test")
+    model = SVC(gamma=0.001)
+    model.fit(X_train, y_train)
+    return model
+
+
 @enable_mlflow
 @step(enable_cache=False)
 def svc_trainer_mlflow(
