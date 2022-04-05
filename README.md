@@ -19,14 +19,15 @@ Join our <a href="https://zenml.io/slack-invite" target="_blank">
 <img src="_assets/sam.png" alt="Sam"/>
 </div>
 
-A series of lessons about MLOps through [ZenML](https://github.com/zenml-io/zenml) and its various integrations. It is intended for people intending to learn about MLOps generally, and also practitioners specifically looking to learn more about ZenML.
+ZenBytes is a series of practical lessons about MLOps through [ZenML](https://github.com/zenml-io/zenml) and its various integrations. It is intended for people looking to learn about MLOps generally, and also practitioners specifically looking to learn more about ZenML.
 
+## :pray: About ZenML
 ZenML is an extensible, open-source MLOps framework to create production-ready machine learning pipelines. Built for data scientists, it has a simple, flexible syntax, is cloud- and tool-agnostic, and has interfaces/abstractions that are catered towards ML workflows. The [ZenML repository](https://github.com/zenml-io/zenml) and [Docs](https://docs.zenml.io) has more details.
 
 ZenML is a good tool to learn MLOps because of two reasons:
 
-- :small_blue_diamond: ZenML focuses on being un-opinionated about underlying tooling and infrastructure across the MLOps stack. 
-- :small_blue_diamond: ZenML presents itself as a pipeline tool, making all development in ZenML [data-centric](https://www.youtube.com/watch?v=06-AZXmwHjo) rather than model-centric.
+:small_blue_diamond: ZenML focuses on being un-opinionated about underlying tooling and infrastructure across the MLOps stack. 
+:small_blue_diamond: ZenML presents itself as a pipeline tool, making all development in ZenML [data-centric](https://www.youtube.com/watch?v=06-AZXmwHjo) rather than model-centric.
 
 ## :bricks: Structure of Lessons
 
