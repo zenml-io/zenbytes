@@ -1,3 +1,2 @@
-zenml=0.6.3
+git+https://github.com/zenml-io/zenml.git@feature/deployers/eng-743-seldon-core-service
 notebook
-ml-pipelines-sdk==1.6.1
