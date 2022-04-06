@@ -1,0 +1,10 @@
+activated_profile: default
+analytics_opt_in: true
+profiles:
+  default:
+    active_stack: aws_kubeflow_stack
+    name: default
+    store_type: local
+    store_url: file:///app/.zenconfig/profiles/default
+user_id: b09aa78f-92dc-4c34-bfe3-5202232949c2
+version: 0.7.0

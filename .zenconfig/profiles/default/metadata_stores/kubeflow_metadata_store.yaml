@@ -1,0 +1,7 @@
+database: metadb
+host: 127.0.0.1
+name: kubeflow_metadata_store
+password: ''
+port: 3306
+username: root
+uuid: a483e34d-4981-45cc-a123-707688b79dee

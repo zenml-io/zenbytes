@@ -1,0 +1,3 @@
+name: s3_store
+path: s3://zenbytes-bucket
+uuid: 5012f6d3-8dc0-4a3b-bd7f-d261241334db
