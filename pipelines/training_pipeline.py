@@ -5,8 +5,8 @@ from zenml.pipelines import pipeline
 # Path to a pip requirements file that contains requirements necessary to run
 # the pipeline
 
-@pipeline(enable_cache=False, requirements_file='../requirements.txt', required_integrations=['mlflow', 'evidently'])
-def continuous_deployment_pipeline_kf(
+@pipeline(enable_cache=False, requirements_file='../requirements.txt', required_integrations=['seldon', 'evidently'])
+def continuous_deployment_pipeline(
     importer,
     trainer,
     evaluator,
