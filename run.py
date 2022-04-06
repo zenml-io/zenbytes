@@ -13,7 +13,7 @@
 #  permissions and limitations under the License.
 import click
 from rich import print
-import datetime
+from datetime import datetime
 
 from pipelines.training_pipeline import continuous_deployment_pipeline
 from steps.deployment_trigger import deployment_trigger
