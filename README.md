@@ -67,6 +67,7 @@ pip install -r requirements.txt
 If you are prunning the `run.py` script, you will also need to install some integrations using zenml:
 
 ```bash
+zenml integration install sklearn -f
 zenml integration install dash -f
 zenml integration install evidently -f
 zenml integration install mlflow -f
