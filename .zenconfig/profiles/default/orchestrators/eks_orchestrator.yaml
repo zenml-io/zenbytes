@@ -1,6 +1,0 @@
-custom_docker_base_image_name: 715803424590.dkr.ecr.us-east-1.amazonaws.com/zenml-kubeflow
-kubeflow_pipelines_ui_port: 8080
-kubernetes_context: null
-name: eks_orchestrator
-synchronous: false
-uuid: 0d2ef16a-b7f5-4183-a50a-ef78418c3295

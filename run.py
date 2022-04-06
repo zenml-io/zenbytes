@@ -13,6 +13,7 @@
 #  permissions and limitations under the License.
 import click
 from rich import print
+import datetime
 
 from pipelines.training_pipeline import continuous_deployment_pipeline
 from steps.deployment_trigger import deployment_trigger
@@ -21,7 +22,7 @@ from steps.evaluator import evaluator
 from steps.importer import importer, get_reference_data
 from steps.trainer import svc_trainer_mlflow # type: ignore [import]
 from steps.seldon_deployer import SeldonDeployerConfig, seldon_model_deployer
-
+from zenml.pipelines import Schedule
 from zenml.services import load_last_service_from_step
 
 from zenml.integrations.evidently.steps import (
@@ -44,6 +45,7 @@ from zenml.integrations.evidently.steps import (
     help="Run the inference pipeline to send a prediction request "
     "to the deployed model",
 )
+@click.option("--interval-second", help="How long between scheudle pipelines.", type=int, default=None)
 @click.option("--kubernetes-context", help="Kubernetes context to use.")
 @click.option("--namespace", help="Kubernetes namespace to use.")
 @click.option("--base-url", help="Seldon core ingress base URL.")
@@ -56,6 +58,7 @@ from zenml.integrations.evidently.steps import (
 def main(
     deploy: bool,
     predict: bool,
+    interval_second: int,
     kubernetes_context: str,
     namespace: str,
     base_url: str,
@@ -112,8 +115,13 @@ def main(
             ),
         )
 
-        deployment.run()
-
+        if interval_second is not None:
+            deployment.run(
+                schedule=Schedule(start_time=datetime.now(), interval_second=interval_second)
+            )
+        else:
+            deployment.run()
+            
     if predict:
         # Coming soon
         # Initialize an inference pipeline run
