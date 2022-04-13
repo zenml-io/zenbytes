@@ -24,10 +24,6 @@ from steps.discord_bot import discord_alert
 from steps.dynamic_importer import dynamic_importer
 from steps.evaluator import evaluator
 from steps.importer import importer, get_reference_data
-from steps.mlflow_service_loader import (
-    mlflow_service_loader,
-    MLFlowDeploymentLoaderStepConfig,
-)
 from steps.predictor import predictor
 from steps.seldon_service_loader import (
     seldon_service_loader,
@@ -44,8 +40,6 @@ from zenml.integrations.evidently.steps import (
     EvidentlyProfileConfig,
     EvidentlyProfileStep,
 )
-
-from zenml.integrations.mlflow.steps import mlflow_deployer_step, MLFlowDeployerConfig
 
 from zenml.integrations.seldon.model_deployers import SeldonModelDeployer
 from zenml.integrations.seldon.services import (
@@ -86,11 +80,18 @@ from zenml.integrations.seldon.steps import (
     help="Specify the name of a Kubernetes secret to be passed to Seldon Core "
     "deployments to authenticate to the Artifact Store",
 )
+@click.option(
+    "--stop-service",
+    is_flag=True,
+    default=False,
+    help="Stop the MLflow prediction service",
+)
 def main(
     deploy: bool,
     predict: bool,
     interval_second: int,
     secret: str,
+    stop_service: bool,
 ):
     """Run the example continuous deployment or inference pipeline
     Example usage:
@@ -105,6 +106,16 @@ def main(
     model_deployer = Repository().active_stack.model_deployer
     use_seldon = model_deployer and isinstance(model_deployer, SeldonModelDeployer)
     pipelines.training_pipeline.DEPLOYER_TAKES_IN_MODEL = use_seldon
+
+    if stop_service and not use_seldon:
+        service = load_last_service_from_step(
+            pipeline_name="continuous_deployment_pipeline",
+            step_name="model_deployer",
+            running=True,
+        )
+        if service:
+            service.stop(timeout=10)
+        return
 
     evidently_profile_config = EvidentlyProfileConfig(
         column_mapping=None, profile_sections=["datadrift"]
@@ -125,6 +136,11 @@ def main(
                 )
             )
         else:
+            from zenml.integrations.mlflow.steps import (
+                mlflow_deployer_step,
+                MLFlowDeployerConfig,
+            )
+
             model_deployer_step = mlflow_deployer_step(name="model_deployer")(
                 config=MLFlowDeployerConfig(workers=1)
             )
@@ -163,6 +179,11 @@ def main(
                 )
             )
         else:
+            from steps.mlflow_service_loader import (
+                mlflow_service_loader,
+                MLFlowDeploymentLoaderStepConfig,
+            )
+
             service_loader_step = mlflow_service_loader(
                 MLFlowDeploymentLoaderStepConfig(
                     pipeline_name="continuous_deployment_pipeline",
