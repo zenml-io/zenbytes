@@ -64,7 +64,7 @@ git clone https://github.com/zenml-io/zenbytes
 pip install -r requirements.txt
 ```
 
-If you are prunning the `run.py` script, you will also need to install some integrations using zenml:
+If you are running the `run.py` script, you will also need to install some integrations using zenml:
 
 ```bash
 zenml integration install sklearn -f
