@@ -1,2 +1,2 @@
-git+https://github.com/zenml-io/zenml.git@misc/zenbytes
+zenml
 notebook
