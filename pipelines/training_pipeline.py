@@ -1,6 +1,6 @@
 from zenml.pipelines import pipeline
 
-DEPLOYER_TAKES_IN_MODEL=True
+DEPLOYER_TAKES_IN_MODEL=False
 
 
 @pipeline(
