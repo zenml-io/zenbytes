@@ -1,8 +1,5 @@
 from zenml.pipelines import pipeline
 
-DEPLOYER_TAKES_IN_MODEL=False
-
-
 @pipeline(
     enable_cache=False,
     requirements_file="../requirements.txt",
@@ -30,7 +27,4 @@ def continuous_deployment_pipeline(
 
     # new
     deployment_decision = deployment_trigger(drift_report)
-    if DEPLOYER_TAKES_IN_MODEL:
-        model_deployer(deployment_decision, model)
-    else:
-        model_deployer(deployment_decision)
+    model_deployer(deployment_decision, model)

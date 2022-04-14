@@ -1,14 +1,14 @@
 from zenml.steps import step, BaseStepConfig
-from zenml.integrations.seldon.model_deployers import SeldonModelDeployer
-from zenml.integrations.seldon.services import SeldonDeploymentService
+from zenml.services import BaseService
+from zenml.repository import Repository
 
-class SeldonDeploymentLoaderStepConfig(BaseStepConfig):
-    """Seldon deployment loader configuration
+class PredictionServiceLoaderStepConfig(BaseStepConfig):
+    """Model deployment service loader configuration
 
     Attributes:
-        pipeline_name: name of the pipeline that deployed the Seldon prediction
+        pipeline_name: name of the pipeline that deployed the model prediction
             server
-        step_name: the name of the step that deployed the Seldon prediction
+        step_name: the name of the step that deployed the model prediction
             server
         model_name: the name of the model that was deployed
     """
@@ -19,12 +19,16 @@ class SeldonDeploymentLoaderStepConfig(BaseStepConfig):
 
 
 @step(enable_cache=False)
-def seldon_service_loader(
-    config: SeldonDeploymentLoaderStepConfig,
-) -> SeldonDeploymentService:
+def prediction_service_loader(
+    config: PredictionServiceLoaderStepConfig,
+) -> BaseService:
     """Get the prediction service started by the deployment pipeline"""
 
-    model_deployer = SeldonModelDeployer.get_active_model_deployer()
+    model_deployer = Repository(skip_repository_check=True).active_stack.model_deployer
+    if not model_deployer:
+        raise RuntimeError(
+            "No Model Deployer was found in the active stack."
+        )
 
     services = model_deployer.find_model_server(
         pipeline_name=config.pipeline_name,
@@ -33,7 +37,7 @@ def seldon_service_loader(
     )
     if not services:
         raise RuntimeError(
-            f"No Seldon Core prediction server deployed by the "
+            f"No model prediction server deployed by the "
             f"'{config.step_name}' step in the '{config.pipeline_name}' "
             f"pipeline for the '{config.model_name}' model is currently "
             f"running."
@@ -41,7 +45,7 @@ def seldon_service_loader(
 
     if not services[0].is_running:
         raise RuntimeError(
-            f"The Seldon Core prediction server last deployed by the "
+            f"The model prediction server last deployed by the "
             f"'{config.step_name}' step in the '{config.pipeline_name}' "
             f"pipeline for the '{config.model_name}' model is not currently "
             f"running."

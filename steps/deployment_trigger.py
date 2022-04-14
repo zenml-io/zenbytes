@@ -10,6 +10,6 @@ def deployment_trigger(
     drift = drift_report["data_drift"]["data"]["metrics"]["dataset_drift"]
 
     if drift:
-        return True
-    else:
         return False
+    else:
+        return True

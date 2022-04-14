@@ -15,8 +15,6 @@ import click
 from rich import print
 from datetime import datetime
 
-import pipelines.training_pipeline
-
 from pipelines.training_pipeline import continuous_deployment_pipeline
 from pipelines.inference_pipeline import inference_pipeline
 from steps.deployment_trigger import deployment_trigger
@@ -24,28 +22,26 @@ from steps.discord_bot import discord_alert
 from steps.dynamic_importer import dynamic_importer
 from steps.evaluator import evaluator
 from steps.importer import importer, get_reference_data
-from steps.mlflow_service_loader import (
-    mlflow_service_loader,
-    MLFlowDeploymentLoaderStepConfig,
-)
 from steps.predictor import predictor
-from steps.seldon_service_loader import (
-    seldon_service_loader,
-    SeldonDeploymentLoaderStepConfig,
+from steps.prediction_service_loader import (
+    prediction_service_loader,
+    PredictionServiceLoaderStepConfig,
 )
 from steps.trainer import svc_trainer_mlflow  # type: ignore [import]
 
 
 from zenml.pipelines import Schedule
 from zenml.repository import Repository
-from zenml.services import load_last_service_from_step
 
 from zenml.integrations.evidently.steps import (
     EvidentlyProfileConfig,
     EvidentlyProfileStep,
 )
 
-from zenml.integrations.mlflow.steps import mlflow_deployer_step, MLFlowDeployerConfig
+from zenml.integrations.mlflow.steps import (
+    MLFlowDeployerConfig,
+    mlflow_model_deployer_step,
+)
 
 from zenml.integrations.seldon.model_deployers import SeldonModelDeployer
 from zenml.integrations.seldon.services import (
@@ -103,8 +99,20 @@ def main(
     # detect the active model deployer and use Seldon Core or MLflow
     # depending on what's available
     model_deployer = Repository().active_stack.model_deployer
-    use_seldon = model_deployer and isinstance(model_deployer, SeldonModelDeployer)
-    pipelines.training_pipeline.DEPLOYER_TAKES_IN_MODEL = use_seldon
+    if not model_deployer:
+        raise RuntimeError(
+            "A Model Deployer must be configured in the active stack."
+        )
+
+    deployment_pipeline_name = "continuous_deployment_pipeline"
+    if model_deployer and isinstance(model_deployer, SeldonModelDeployer):
+        use_seldon = True
+        deployment_step_name = "seldon_model_deployer_step"
+        model_name = "mnist"
+    else:
+        use_seldon = False
+        deployment_step_name = "mlflow_model_deployer_step"
+        model_name = "model"
 
     evidently_profile_config = EvidentlyProfileConfig(
         column_mapping=None, profile_sections=["datadrift"]
@@ -116,7 +124,7 @@ def main(
             model_deployer_step = seldon_model_deployer_step(
                 config=SeldonDeployerStepConfig(
                     service_config=SeldonDeploymentConfig(
-                        model_name="mnist",
+                        model_name=model_name,
                         replicas=1,
                         implementation="SKLEARN_SERVER",
                         secret_name=secret,
@@ -125,8 +133,10 @@ def main(
                 )
             )
         else:
-            model_deployer_step = mlflow_deployer_step(name="model_deployer")(
-                config=MLFlowDeployerConfig(workers=1)
+            model_deployer_step = (
+                mlflow_model_deployer_step(
+                    config=MLFlowDeployerConfig(workers=1, timeout=20)
+                )
             )
 
         # Initialize a continuous deployment pipeline run
@@ -154,80 +164,50 @@ def main(
 
     if predict:
 
-        if use_seldon:
-            service_loader_step = seldon_service_loader(
-                config=SeldonDeploymentLoaderStepConfig(
-                    pipeline_name="continuous_deployment_pipeline",
-                    step_name="seldon_model_deployer_step",
-                    model_name="mnist",
-                )
-            )
-        else:
-            service_loader_step = mlflow_service_loader(
-                MLFlowDeploymentLoaderStepConfig(
-                    pipeline_name="continuous_deployment_pipeline",
-                    step_name="model_deployer",
-                )
-            )
-
         # Initialize an inference pipeline run
         inference = inference_pipeline(
             dynamic_importer=dynamic_importer(),
-            prediction_service_loader=service_loader_step,
+            prediction_service_loader=prediction_service_loader(
+                config=PredictionServiceLoaderStepConfig(
+                    pipeline_name=deployment_pipeline_name,
+                    step_name=deployment_step_name,
+                    model_name=model_name,
+                )
+            ),
             predictor=predictor(),
         )
 
         inference.run()
 
-    if use_seldon:
-        services = model_deployer.find_model_server(
-            pipeline_name="continuous_deployment_pipeline",
-            pipeline_step_name="seldon_model_deployer_step",
-            model_name="mnist",
-        )
-        if services:
-            service = services[0]
-            if service.is_running:
-                print(
-                    f"The Seldon prediction server is running remotely as a Kubernetes "
-                    f"service and accepts inference requests at:\n"
-                    f"    {service.prediction_url}\n"
-                    f"To stop the service, re-run the same command and supply the "
-                    f"`--stop-service` argument."
-                )
-            elif service.is_failed:
-                print(
-                    f"The Seldon prediction server is in a failed state:\n"
-                    f" Last state: '{service.status.state.value}'\n"
-                    f" Last error: '{service.status.last_error}'"
-                )
+    services = model_deployer.find_model_server(
+        pipeline_name=deployment_pipeline_name,
+        pipeline_step_name=deployment_step_name,
+        model_name=model_name,
+    )
+    if services:
+        service = services[0]
+        if service.is_running:
+            print(
+                f"The mode prediction server is running and accepts inference "
+                f"requests at:\n"
+                f"    {service.prediction_url}\n"
+                f"To stop the service, run "
+                f"[italic green]`zenml served-models delete "
+                f"{str(service.uuid)}`[/italic green]."
+            )
+        elif service.is_failed:
+            print(
+                f"The model prediction server is in a failed state:\n"
+                f" Last state: '{service.status.state.value}'\n"
+                f" Last error: '{service.status.last_error}'"
+            )
 
-        else:
-            print(
-                "No Seldon prediction server is currently running. The deployment "
-                "pipeline must run first to train a model and deploy it. Execute "
-                "the same command with the `--deploy` argument to deploy a model."
-            )
     else:
-        try:
-            service = load_last_service_from_step(
-                pipeline_name="continuous_deployment_pipeline",
-                step_name="model_deployer",
-                running=True,
-            )
-            print(
-                f"The MLflow prediction server is running locally as a daemon process "
-                f"and accepts inference requests at:\n"
-                f"    {service.prediction_uri}\n"
-                f"To stop the service, re-run the same command and supply the "
-                f"`--stop-service` argument."
-            )
-        except KeyError:
-            print(
-                "No MLflow prediction server is currently running. The deployment "
-                "pipeline must run first to train a model and deploy it. Execute "
-                "the same command with the `--deploy` argument to deploy a model."
-            )
+        print(
+            "No model prediction server is currently running. The deployment "
+            "pipeline must run first to train a model and deploy it. Execute "
+            "the same command with the `--deploy` argument to deploy a model."
+        )
 
 
 if __name__ == "__main__":
