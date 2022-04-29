@@ -1,16 +1,12 @@
+import mlflow
 import numpy as np
-import pandas as pd
 from sklearn.base import ClassifierMixin
 
-from zenml.integrations.sklearn.helpers.digits import (
-    get_digits,
-)
 from sklearn.base import ClassifierMixin
-from zenml.steps import step, Output, BaseStepConfig
+from zenml.steps import step, BaseStepConfig
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.svm import SVC
-from zenml.pipelines import pipeline
-from zenml.steps import Output, step
+from zenml.steps import step
 
 
 class TrainerConfig(BaseStepConfig):
@@ -20,11 +16,6 @@ class TrainerConfig(BaseStepConfig):
     lr: float = 0.001
 
 
-from zenml.integrations.mlflow.mlflow_step_decorator import enable_mlflow
-import mlflow
-
-
-@enable_mlflow
 @step(enable_cache=False)
 def svc_trainer_mlflow(
     X_train: np.ndarray,
@@ -37,7 +28,6 @@ def svc_trainer_mlflow(
     return model
 
 
-@enable_mlflow
 @step(enable_cache=False)
 def tree_trainer_with_mlflow(
     X_train: np.ndarray,

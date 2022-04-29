@@ -90,6 +90,8 @@ Once you are done running all notebooks you might want to stop all running proce
 
 
 ```shell
+zenml stack set aws_kubeflow_stack
+zenml stack down -f
 zenml stack set local_kubeflow_stack
 zenml stack down -f
 ```
