@@ -27,7 +27,8 @@ from steps.prediction_service_loader import (
     prediction_service_loader,
     PredictionServiceLoaderStepConfig,
 )
-from steps.trainer import svc_trainer_mlflow  # type: ignore [import]
+from steps.trainer import svc_trainer_mlflow
+from steps.mlflow_trainer import svc_trainer_mlflow as mlflow_svc_trainer_mlflow
 
 
 from zenml.pipelines import Schedule
@@ -121,6 +122,7 @@ def main(
     if deploy:
 
         if use_seldon:
+            model_trainer_step = svc_trainer_mlflow
             model_deployer_step = seldon_model_deployer_step(
                 config=SeldonDeployerStepConfig(
                     service_config=SeldonDeploymentConfig(
@@ -133,6 +135,7 @@ def main(
                 )
             )
         else:
+            model_trainer_step = mlflow_svc_trainer_mlflow
             model_deployer_step = (
                 mlflow_model_deployer_step(
                     config=MLFlowDeployerConfig(workers=1, timeout=20)
@@ -142,7 +145,7 @@ def main(
         # Initialize a continuous deployment pipeline run
         deployment = continuous_deployment_pipeline(
             importer=importer(),
-            trainer=svc_trainer_mlflow(),
+            trainer=model_trainer_step(),
             evaluator=evaluator(),
             # EvidentlyProfileStep takes reference_dataset and comparison dataset
             get_reference_data=get_reference_data(),
@@ -188,7 +191,7 @@ def main(
         service = services[0]
         if service.is_running:
             print(
-                f"The mode prediction server is running and accepts inference "
+                f"The model prediction server is running and accepts inference "
                 f"requests at:\n"
                 f"    {service.prediction_url}\n"
                 f"To stop the service, run "
