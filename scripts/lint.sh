@@ -2,7 +2,7 @@
 set -e
 set -x
 
-SRC=${1:-"src"}
+SRC=${1:-"src/"}
 
 export ZENML_DEBUG=1
 export ZENML_ANALYTICS_OPT_IN=false
@@ -11,4 +11,3 @@ autoflake --remove-all-unused-imports --recursive --remove-unused-variables --in
 isort $SRC scripts --check-only
 black $SRC  --check
 interrogate $SRC -c pyproject.toml
-mypy $SRC

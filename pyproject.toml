@@ -12,58 +12,12 @@ license = "Apache-2.0"
 python = ">=3.7.1,<3.9"
 
 [tool.poetry.dev-dependencies]
-pytest = "^6.2.4"
-mypy = "^0.931"
 flake8 = "^3.9.2"
 black = "^21.7b0"
 interrogate = "^1.4.0"
 isort = "^5.9.3"
 pre-commit = "^2.14.0"
 autoflake = "^1.4"
-pyment = "^0.3.3"
-tox = "^3.24.3"
-hypothesis = "^6.43.1"
-typing-extensions = ">=3.7.4"
-
-# pytest dev dependencies
-pytest-randomly = "^3.10.1"
-pytest-clarity = "^1.0.1"
-
-# mypy type stubs
-types-certifi = "^2021.10.8.0"
-types-croniter = "^1.0.2"
-types-futures = "^3.3.1"
-types-Markdown = "^3.3.6"
-types-protobuf = "^3.18.0"
-types-PyMySQL = "^1.0.4"
-types-python-dateutil = "^2.8.2"
-types-python-slugify = "^5.0.2"
-types-PyYAML = "^6.0.0"
-types-redis = "^4.1.19"
-types-requests = "^2.27.11"
-types-setuptools = "^57.4.2"
-types-six = "^1.16.2"
-types-termcolor = "^1.1.2"
-types-psutil = "^5.8.13"
-pytest-mock = "^3.6.1"
-codespell = "^2.1.0"
-
-[tool.tox]
-name = "ZenML"
-authors = ["Hamza Tahir <hamza@zenml.io>"]
-legacy_tox_ini = """
-[tox]
-isolated_build = True
-skipsdist = true
-envlist = py36,py37,py38,py39
-
-[testenv]
-whitelist_externals = poetry
-commands =
-    poetry install -v --extras all
-    poetry run pytest tests
-    poetry run bash scripts/mypy.sh --install-types
-"""
 
 [tool.isort]
 profile = "black"
@@ -71,84 +25,8 @@ known_third_party = []
 skip_glob = []
 line_length = 80
 
-[tool.mypy]
-strict = true
-namespace_packages = true
-show_error_codes = true
-
-[[tool.mypy.overrides]]
-module = [
-    "airflow.*",
-    ]
-follow_imports = "skip"
-
-# end of fix
-
-# import all tfx.proto.* and google files as `Any`
-[[tool.mypy.overrides]]
-module = [
-    "tfx.proto.*",
-    "google.*" ,
-    "transformers.*"  # https://github.com/huggingface/transformers/issues/13390
-]
-follow_imports = "skip"
-
-[[tool.mypy.overrides]]
-module = [
-    "tensorflow.*",
-    "apache_beam.*",
-    "pyarrow.*",
-    "pandas.*",
-    "ml_metadata.*",
-    "distro.*",
-    "analytics.*",
-    "absl.*",
-    "gcsfs.*",
-    "s3fs.*",
-    "adlfs.*",
-    "fsspec.*",
-    "torch.*",
-    "pytorch_lightning.*",
-    "sklearn.*",
-    "numpy.*",
-    "facets_overview.*",
-    "IPython.core.*",
-    "plotly.*",
-    "graphviz.*",
-    "dash.*",
-    "dash_bootstrap_components.*",
-    "dash_cytoscape",
-    "dash.dependencies",
-    "docker.*",
-    "kfp.*",
-    "kubernetes.*",
-    "urllib3.*",
-    "kfp_server_api.*",
-    "sagemaker.*",
-    "azureml.*",
-    "google.*",
-    "neuralprophet.*",
-    "wandb.*",
-    "lightgbm.*",
-    "scipy.*",
-]
-ignore_missing_imports = true
-
 [tool.black]
 line-length = 80
-include = '\.pyi?$'
-exclude = '''
-/(
-	\.git
-| \.hg
-| \.mypy_cache
-| \.tox
-| \.venv
-| _build
-| buck-out
-| build
-)/
-'''
 
 [tool.interrogate]
 ignore-init-method = true
@@ -162,7 +40,7 @@ ignore-nested-functions = false
 ignore-nested-classes = true
 ignore-setters = false
 fail-under = 95
-exclude = ["setup.py", "docs", "build"]
+exclude = []
 ignore-regex = ["^get$", "^mock_.*", ".*BaseClass.*"]
 verbose = 1
 quiet = false
