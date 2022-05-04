@@ -1,12 +1,9 @@
 import mlflow
 import numpy as np
 from sklearn.base import ClassifierMixin
-
-from sklearn.base import ClassifierMixin
-from zenml.steps import step, BaseStepConfig
-from sklearn.tree import DecisionTreeClassifier
 from sklearn.svm import SVC
-from zenml.steps import step
+from sklearn.tree import DecisionTreeClassifier
+from zenml.steps import BaseStepConfig, step
 
 
 class TrainerConfig(BaseStepConfig):

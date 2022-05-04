@@ -1,5 +1,3 @@
-import os
-
 from zenml.pipelines import pipeline
 
 # Path to a pip requirements file that contains requirements necessary to run
@@ -16,6 +14,7 @@ def inference_pipeline(
     prediction_service_loader,
     predictor,
 ):
+    """Create inference pipeline"""
     # Link all the steps artifacts together
     batch_data = dynamic_importer()
     model_deployment_service = prediction_service_loader()

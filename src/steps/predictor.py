@@ -1,7 +1,6 @@
 import numpy as np
-
-from zenml.steps import step, Output
 from zenml.services import BaseService
+from zenml.steps import Output, step
 
 
 @step

@@ -1,0 +1,17 @@
+fail_fast: true
+
+repos:
+  - repo: local
+    hooks:
+      - id: lint
+        name: lint
+        entry: poetry run bash scripts/lint.sh
+        language: system
+        pass_filenames: false
+
+  - repo: local
+    hooks:
+      - id: spellcheck
+        name: spellcheck
+        entry: poetry run bash scripts/check-spelling.sh
+        language: system

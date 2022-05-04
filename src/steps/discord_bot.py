@@ -1,6 +1,6 @@
 import requests
-from zenml.steps import step
 from zenml.environment import Environment
+from zenml.steps import step
 
 # This is a private ZenML Discord channel. We will get notified if you use
 # this, but you won't be able to see it. Feel free to create a new Discord
@@ -39,5 +39,9 @@ def discord_alert(drift_report: dict) -> None:
     except requests.exceptions.HTTPError as err:
         print(err)
     else:
-        print("Posted to discord successfully, code {}.".format(result.status_code))
+        print(
+            "Posted to discord successfully, code {}.".format(
+                result.status_code
+            )
+        )
     print("Drift detected" if drift else "No Drift detected")
