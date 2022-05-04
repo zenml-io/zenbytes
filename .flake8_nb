@@ -1,0 +1,7 @@
+[flake8_nb]
+max-line-length = 79
+max-complexity = 18
+select = B,C,E,F,W,T4,B9
+ignore = E402, F811, E501, E999, E226, E225, F401
+keep_parsed_notebooks = False
+notebook_cell_format = {nb_path}#In[{exec_count}]
