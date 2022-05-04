@@ -1,6 +1,7 @@
-from zenml.steps import step, BaseStepConfig
-from zenml.services import BaseService
 from zenml.repository import Repository
+from zenml.services import BaseService
+from zenml.steps import BaseStepConfig, step
+
 
 class PredictionServiceLoaderStepConfig(BaseStepConfig):
     """Model deployment service loader configuration
@@ -24,11 +25,11 @@ def prediction_service_loader(
 ) -> BaseService:
     """Get the prediction service started by the deployment pipeline"""
 
-    model_deployer = Repository(skip_repository_check=True).active_stack.model_deployer
+    model_deployer = Repository(
+        skip_repository_check=True
+    ).active_stack.model_deployer
     if not model_deployer:
-        raise RuntimeError(
-            "No Model Deployer was found in the active stack."
-        )
+        raise RuntimeError("No Model Deployer was found in the active stack.")
 
     services = model_deployer.find_model_server(
         pipeline_name=config.pipeline_name,

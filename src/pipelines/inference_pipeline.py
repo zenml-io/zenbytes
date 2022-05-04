@@ -1,5 +1,3 @@
-import os
-
 from zenml.pipelines import pipeline
 
 # Path to a pip requirements file that contains requirements necessary to run

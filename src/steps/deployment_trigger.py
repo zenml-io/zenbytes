@@ -1,5 +1,6 @@
 from zenml.steps import step
 
+
 @step
 def deployment_trigger(
     drift_report: dict,

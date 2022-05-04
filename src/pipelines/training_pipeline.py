@@ -1,5 +1,6 @@
 from zenml.pipelines import pipeline
 
+
 @pipeline(
     enable_cache=False,
     requirements_file="../requirements.txt",

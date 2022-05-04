@@ -11,48 +11,41 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
 #  or implied. See the License for the specific language governing
 #  permissions and limitations under the License.
-import click
-from rich import print
 from datetime import datetime
 
-from pipelines.training_pipeline import continuous_deployment_pipeline
-from pipelines.inference_pipeline import inference_pipeline
-from steps.deployment_trigger import deployment_trigger
-from steps.discord_bot import discord_alert
-from steps.dynamic_importer import dynamic_importer
-from steps.evaluator import evaluator
-from steps.importer import importer, get_reference_data
-from steps.predictor import predictor
-from steps.prediction_service_loader import (
-    prediction_service_loader,
-    PredictionServiceLoaderStepConfig,
-)
-from steps.trainer import svc_trainer_mlflow
-from steps.mlflow_trainer import svc_trainer_mlflow as mlflow_svc_trainer_mlflow
-
-
-from zenml.pipelines import Schedule
-from zenml.repository import Repository
-
+import click
+from rich import print
 from zenml.integrations.evidently.steps import (
     EvidentlyProfileConfig,
     EvidentlyProfileStep,
 )
-
 from zenml.integrations.mlflow.steps import (
     MLFlowDeployerConfig,
     mlflow_model_deployer_step,
 )
-
 from zenml.integrations.seldon.model_deployers import SeldonModelDeployer
-from zenml.integrations.seldon.services import (
-    SeldonDeploymentConfig,
-    SeldonDeploymentService,
-)
+from zenml.integrations.seldon.services import SeldonDeploymentConfig
 from zenml.integrations.seldon.steps import (
     SeldonDeployerStepConfig,
     seldon_model_deployer_step,
 )
+from zenml.pipelines import Schedule
+from zenml.repository import Repository
+
+from pipelines.inference_pipeline import inference_pipeline
+from pipelines.training_pipeline import continuous_deployment_pipeline
+from steps.deployment_trigger import deployment_trigger
+from steps.discord_bot import discord_alert
+from steps.dynamic_importer import dynamic_importer
+from steps.evaluator import evaluator
+from steps.importer import get_reference_data, importer
+from steps.mlflow_trainer import svc_trainer_mlflow as mlflow_svc_trainer_mlflow
+from steps.prediction_service_loader import (
+    PredictionServiceLoaderStepConfig,
+    prediction_service_loader,
+)
+from steps.predictor import predictor
+from steps.trainer import svc_trainer_mlflow
 
 
 @click.command()
@@ -136,10 +129,8 @@ def main(
             )
         else:
             model_trainer_step = mlflow_svc_trainer_mlflow
-            model_deployer_step = (
-                mlflow_model_deployer_step(
-                    config=MLFlowDeployerConfig(workers=1, timeout=20)
-                )
+            model_deployer_step = mlflow_model_deployer_step(
+                config=MLFlowDeployerConfig(workers=1, timeout=20)
             )
 
         # Initialize a continuous deployment pipeline run
@@ -149,7 +140,9 @@ def main(
             evaluator=evaluator(),
             # EvidentlyProfileStep takes reference_dataset and comparison dataset
             get_reference_data=get_reference_data(),
-            drift_detector=EvidentlyProfileStep(config=evidently_profile_config),
+            drift_detector=EvidentlyProfileStep(
+                config=evidently_profile_config
+            ),
             # Add discord
             alerter=discord_alert(),
             deployment_trigger=deployment_trigger(),

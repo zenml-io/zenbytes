@@ -1,7 +1,7 @@
 #!/bin/sh -e
 set -x
 
-SRC=${1:-"src/zenml"}
+SRC=${1:-"src"}
 
 export ZENML_DEBUG=1
 export ZENML_ANALYTICS_OPT_IN=false
