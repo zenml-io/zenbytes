@@ -3,6 +3,7 @@ from zenml.steps import Output, step
 
 
 def get_data_from_api():
+    """Generate mock data"""
     data = np.array(
         [
             [
