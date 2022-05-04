@@ -7,8 +7,6 @@ repos:
         name: lint
         entry: poetry run bash scripts/lint.sh
         language: system
-        files: ^src
-        types: [file, python]
         pass_filenames: false
 
   - repo: local
