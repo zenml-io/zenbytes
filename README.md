@@ -14,7 +14,6 @@ In the end, you will be able to take any of your ML models from experimentation 
 <div align="center">
 <img src="_assets/sam.png" alt="Sam"/>
 </div>
-<br/>
 
 ## :teacher: Syllabus
 
@@ -63,7 +62,7 @@ If you enjoy these courses and want to learn more:
 </a> and become part of the ZenML family!
 
 ## :computer: Setup
-## System Requirements
+### System Requirements
 
 - Linux or MacOS
 - Python 3.7 or 3.8
