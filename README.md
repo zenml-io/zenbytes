@@ -16,7 +16,7 @@ In the end, you will be able to take any of your ML models from experimentation 
 </div>
 <br/>
 
-## :bricks: Syllabus
+## :teacher: Syllabus
 
 - Chapter 1: ML Pipelines and MLOps Stacks
     - Lesson 1: ZenML Pipeline Definition and Visualization
@@ -53,20 +53,17 @@ In the end, you will be able to take any of your ML models from experimentation 
 ZenML is an extensible, open-source MLOps framework to create production-ready ML pipelines. Built for data scientists, it has a simple, flexible syntax, is cloud- and tool-agnostic, and has interfaces/abstractions that are catered towards ML workflows. 
 
 If you enjoy these courses and want to learn more:
-- Give the 
-<a href="https://github.com/zenml-io/zenml/stargazers" target="_blank">
+- Give the <a href="https://github.com/zenml-io/zenml/stargazers" target="_blank">
     <img width="25" src="https://cdn.iconscout.com/icon/free/png-256/github-153-675523.png" alt="GitHub"/>
-    <b>Main ZenML Repo<b>
-</a> 
-a <b>GitHub Star</b> :star: to show your love!
-- Join our 
-<a href="https://zenml.io/slack-invite" target="_blank">
+    <b>Main ZenML Repo</b>
+</a> a <b>GitHub Star</b> :star: to show your love!
+- Join our <a href="https://zenml.io/slack-invite" target="_blank">
     <img width="25" src="https://cdn3.iconfinder.com/data/icons/logos-and-brands-adobe/512/306_Slack-512.png" alt="Slack"/>
     <b>Slack Community</b> 
-</a> 
-and become part of the ZenML family!
+</a> and become part of the ZenML family!
 
-## :computer: System Requirements
+## :computer: Setup
+## System Requirements
 
 - Linux or MacOS
 - Python 3.7 or 3.8
@@ -94,18 +91,14 @@ For some of the advanced lessons you also need to have the following additional 
 | kubectl  | [kubectl for mac](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/) | [kubectl for linux](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/) |
 | k3d      | [Brew Installation of k3d](https://formulae.brew.sh/formula/k3d)                 | [k3d installation linux](https://k3d.io/v5.2.2/)                                   |
 
-## :notebook: Getting Started
+## :rocket: Getting Started
 
-If you haven't done so already, clone ZenBytes to your local machine:
+If you haven't done so already, clone ZenBytes to your local machine. Then, simply use Jupyter Notebook to go through the course lesson-by-lesson, starting with `01_Pipelines.ipynb`:
+
 
 ```bash
 git clone https://github.com/zenml-io/zenbytes
 cd zenbytes
-```
-
-Then, simply use Jupyter Notebook to go through the course lesson-by-lesson, starting with `00_Setup.ipynb`:
-
-```python
 jupyter notebook
 ```
 
