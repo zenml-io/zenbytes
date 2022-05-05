@@ -1,70 +1,80 @@
 # ZenBytes
 
-![ZenML Logo](_assets/Logo/zenml.svg)
+ZenBytes is a series of short practical MLOps lessons through [ZenML](https://github.com/zenml-io/zenml) and its various integrations. It is intended for people looking to learn about MLOps generally, and also for ML practitioners who want to get started with ZenML.
 
+## :bulb: What you will learn
+- Define an MLOps stack tailored to your project requirements.
+- Build transparent and reproducible data-centric ML pipelines with automated artifact versioning, tracking, caching, and more.
+- Deploy ML pipelines with tooling and infrastructure of your choice (e.g. as serverless microservice in the cloud).
+- Monitor and address production issues like performance drift, data drift, and concept drift.
+- Use some of the most popular MLOps tools like ZenML, Kubeflow, MLflow, Weights & Biases, Evidently, Seldon, Feast, and many more.
 
-<div align="center">
-Join our <a href="https://zenml.io/slack-invite" target="_blank">
-    <img width="25" src="https://cdn3.iconfinder.com/data/icons/logos-and-brands-adobe/512/306_Slack-512.png" alt="Slack"/>
-<b>Slack Community</b> </a> and become part of the ZenML family
-</div>
-<div align="center"> Give the <a href="https://github.com/zenml-io/zenml/stargazers" target="_blank">main ZenML repo</a> a
-    <img width="25" src="https://cdn.iconscout.com/icon/free/png-256/github-153-675523.png" alt="Slack"/>
-<b>GitHub star</b> to show your love
-</div>
-
-<br>
+In the end, you will be able to take any of your ML models from experimentation to a customized, fully fleshed out production-grade MLOps setup in a matter of minutes!
 
 <div align="center">
 <img src="_assets/sam.png" alt="Sam"/>
 </div>
+<br/>
 
-ZenBytes is a series of practical lessons about MLOps through [ZenML](https://github.com/zenml-io/zenml) and its various integrations. It is intended for people looking to learn about MLOps generally, and also practitioners specifically looking to learn more about ZenML.
+## :bricks: Syllabus
+
+- Chapter 1: ML Pipelines and MLOps Stacks
+    - Lesson 1: ZenML Pipeline Definition and Visualization
+    - Lesson 2: Artifact Versioning, Tracking, and Caching
+    - (Lesson 3: Defining MLOps Stacks with ZenML? -> Profiles, Repos)
+- Chapter 2: Transparency & Reproducibility
+    - (Lesson 4: Data Validation with DeepChecks / GreatExpectations)
+    - Lesson 5: Experiment Tracking with W&B / MLFlow
+    - Lesson 6: Data Drift Detection with Evidently
+    - Lesson 7: Automated Discord Alerts
+    - (Lesson 8: Feature Stores with Feast?)
+- Chapter 3: Deployment
+    - Lesson 9: Local Deployment & Inference with MLFlow
+    - (Model Serving with Seldon / BentoML?)
+    - Lesson 10: Continuous Deployment based on Data Drift Triggers
+    - Lesson 11: Serverless Deployment with Seldon & Kubeflow
+    - Lesson 12: Serverless Cloud Deployment with Seldon & Kubeflow on AWS (incl. Secret Managers)
+    - (Lesson 13: Running ZenML Steps on Specialized Hardware)
+- Chapter 4: Full Examples
+    - (Lesson 14: Zero to Hero with ZenML - from Experimentation to Production-Grade MLOps)
+    - (Lesson 15: More Examples - zenml example run and ZenFiles)
+
+<!--
+- (unused)
+    - (Materializers & skipping them)
+- (missing functionality)
+    - Model Registries
+    - Explainability Tools
+    - Model CI/CD
+    - AutoML
+-->
 
 ## :pray: About ZenML
-ZenML is an extensible, open-source MLOps framework to create production-ready machine learning pipelines. Built for data scientists, it has a simple, flexible syntax, is cloud- and tool-agnostic, and has interfaces/abstractions that are catered towards ML workflows. The [ZenML repository](https://github.com/zenml-io/zenml) and [Docs](https://docs.zenml.io) has more details.
+ZenML is an extensible, open-source MLOps framework to create production-ready ML pipelines. Built for data scientists, it has a simple, flexible syntax, is cloud- and tool-agnostic, and has interfaces/abstractions that are catered towards ML workflows. 
 
-ZenML is a good tool to learn MLOps because of two reasons:
-
-:small_blue_diamond: ZenML focuses on being un-opinionated about underlying tooling and infrastructure across the MLOps stack. 
-:small_blue_diamond: ZenML presents itself as a pipeline tool, making all development in ZenML [data-centric](https://www.youtube.com/watch?v=06-AZXmwHjo) rather than model-centric.
-
-## :bricks: Structure of Lessons
-
-The lessons are structured in Chapters. Each chapter is a notebook that walks through and explains various concepts:
-
-- Chapter 0: Basics
-- Chapter 1: Building a ML(Ops) pipeline
-- Chapter 2: Transitioning across stacks
-- Coming soon: More chapters
-
+If you enjoy these courses and want to learn more:
+- Give the 
+<a href="https://github.com/zenml-io/zenml/stargazers" target="_blank">
+    <img width="25" src="https://cdn.iconscout.com/icon/free/png-256/github-153-675523.png" alt="GitHub"/>
+    <b>Main ZenML Repo<b>
+</a> 
+a <b>GitHub Star</b> :star: to show your love!
+- Join our 
+<a href="https://zenml.io/slack-invite" target="_blank">
+    <img width="25" src="https://cdn3.iconfinder.com/data/icons/logos-and-brands-adobe/512/306_Slack-512.png" alt="Slack"/>
+    <b>Slack Community</b> 
+</a> 
+and become part of the ZenML family!
 
 ## :computer: System Requirements
 
-In order to run these lessons, you need to have some packages installed on your machine. Note you only need these for some parts, and you might get away 
-with only Python and `pip install requirements.txt` for some parts of the codebase, but we recommend installing all these:
+- Linux or MacOS
+- Python 3.7 or 3.8
+- Jupyter notebook and ZenML: `pip install zenml notebook`
 
-Currently, this will only run on UNIX systems.
-
-| package  | MacOS installation                                                               | Linux installation                                                                 |
-|----------|----------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
-| docker   | [Docker Desktop for Mac](https://docs.docker.com/desktop/mac/install/)           | [Docker Engine for Linux ](https://docs.docker.com/engine/install/ubuntu/)         |
-| kubectl  | [kubectl for mac](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/) | [kubectl for linux](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/) |
-| k3d      | [Brew Installation of k3d](https://formulae.brew.sh/formula/k3d)                 | [k3d installation linux](https://k3d.io/v5.2.2/)                                   |
-
-You might also need to install [Anaconda](https://docs.conda.io/projects/conda/en/latest/commands/install.html) to get the MLflow deployment to work.
-
-## :snake: Python Requirements
-
-Once you've got the system requirements figured out, let's jump into the Python packages you need. 
-Within the Python environment of your choice, run:
-
-```bash
-git clone https://github.com/zenml-io/zenbytes
-pip install -r requirements.txt
-```
-
-If you are running the `run.py` script, you will also need to install some integrations using zenml:
+### Integrations
+As you progress through the course, you will need to install additional packages for the various other MLOps tools you are going to use.
+You will find the corresponding commands in the respective notebooks. Or, you can install all of the integrations already with the following commands:
 
 ```bash
 zenml integration install sklearn -f
@@ -75,30 +85,33 @@ zenml integration install kubeflow -f
 zenml integration install seldon -f
 ```
 
-## :notebook: Diving into the code
+### Additional Requirements
+For some of the advanced lessons you also need to have the following additional packages installed on your machine:
 
-We're ready to go now. You can go through the notebook step-by-step guide:
+| package  | MacOS installation                                                               | Linux installation                                                                 |
+|----------|----------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
+| docker   | [Docker Desktop for Mac](https://docs.docker.com/desktop/mac/install/)           | [Docker Engine for Linux ](https://docs.docker.com/engine/install/ubuntu/)         |
+| kubectl  | [kubectl for mac](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/) | [kubectl for linux](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/) |
+| k3d      | [Brew Installation of k3d](https://formulae.brew.sh/formula/k3d)                 | [k3d installation linux](https://k3d.io/v5.2.2/)                                   |
+
+## :notebook: Getting Started
+
+If you haven't done so already, clone ZenBytes to your local machine:
+
+```bash
+git clone https://github.com/zenml-io/zenbytes
+cd zenbytes
+```
+
+Then, simply use Jupyter Notebook to go through the course lesson-by-lesson, starting with `00_Setup.ipynb`:
 
 ```python
 jupyter notebook
 ```
 
-## :checkered_flag: Cleaning up when you're done
-
-Once you are done running all notebooks you might want to stop all running processes. For this, run the following command.
-(This will tear down your `k3d` cluster and the local docker registry.)
-
-
-```shell
-zenml stack set aws_kubeflow_stack
-zenml stack down -f
-zenml stack set local_kubeflow_stack
-zenml stack down -f
-```
-
 ## :question: FAQ
 
-1. __MacOS__ When starting the container registry for Kubeflow, I get an error about port 5000 not being available.
+#### 1. __MacOS__ When starting the container registry for Kubeflow, I get an error about port 5000 not being available.
 `OSError: [Errno 48] Address already in use`
 
 Solution: In order for Kubeflow to run, the docker container registry currently needs to be at port 5000. MacOS, however, uses 
