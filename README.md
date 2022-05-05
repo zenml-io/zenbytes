@@ -18,7 +18,7 @@ In the end, you will be able to take any of your ML models from experimentation 
 ## :teacher: Syllabus
 
 - Chapter 1: ML Pipelines and MLOps Stacks
-    - Lesson 1: ZenML Pipeline Definition and Visualization
+    - Lesson 1: ML Pipelines
     - Lesson 2: Artifact Versioning, Tracking, and Caching
     - (Lesson 3: Defining MLOps Stacks with ZenML? -> Profiles, Repos)
 - Chapter 2: Transparency & Reproducibility
