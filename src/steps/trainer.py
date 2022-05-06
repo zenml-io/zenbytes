@@ -18,7 +18,7 @@ def svc_trainer_mlflow(
     X_train: np.ndarray,
     y_train: np.ndarray,
 ) -> ClassifierMixin:
-    """Train another simple sklearn classifier for the digits dataset."""
+    """Train a sklearn SVC classifier and log to MLflow."""
     mlflow.sklearn.autolog()
     model = SVC(gamma=0.001)
     model.fit(X_train, y_train)
@@ -30,7 +30,7 @@ def tree_trainer_with_mlflow(
     X_train: np.ndarray,
     y_train: np.ndarray,
 ) -> ClassifierMixin:
-    """Train another simple sklearn classifier for the digits dataset."""
+    """Train a sklearn decision tree classifier and log to MLflow."""
     mlflow.sklearn.autolog()
     model = DecisionTreeClassifier()
     model.fit(X_train, y_train)
