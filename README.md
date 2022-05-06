@@ -18,20 +18,18 @@ In the end, you will be able to take any of your ML models from experimentation 
 ## :teacher: Syllabus
 
 - Chapter 1: ML Pipelines
-    - Lesson 1.1: ML Pipelines
+    - Lesson 1.1: ML Pipelines with ZenML
     - Lesson 1.2: Artifact Versioning, Tracking, and Caching
 - Chapter 2: Transparency & Reproducibility
-    - Lesson 2.1: Experiment Tracking with W&B / MLFlow
-    - Lesson 2.2: Data Drift Detection with Evidently
-    - Lesson 2.3: Automated Discord Alerts
-    - (Lesson 2.4: Data Validation with DeepChecks / GreatExpectations)
-    - (Lesson 2.5: Feature Stores with Feast?)
+    - Lesson 2.1: Experiment Tracking with W&B / MLflow
+    - Lesson 2.2: Data Drift Detection with Evidently / Whylabs
+    - (Lesson 2.3: Data Validation with DeepChecks / GreatExpectations)
+    - (Lesson 2.4: Feature Stores with Feast?)
 - Chapter 3: Deployment
-    - Lesson 3.1: Local Deployment & Inference with MLFlow
-    - Lesson 3.2: Continuous Deployment based on Data Drift Triggers
-    - (Lesson 3.3: Model Serving with Seldon / BentoML?)
-    - Lesson 3.4: Serverless Deployment with Seldon & Kubeflow
-    - Lesson 3.5: Serverless Cloud Deployment with Seldon & Kubeflow on AWS (incl. Secret Managers)
+    - Lesson 3.1: Local Deployment & Inference with MLflow
+    - (Lesson 3.2: Model Serving with Seldon / BentoML?)
+    - Lesson 3.3: Serverless Deployment with Seldon & Kubeflow
+    - Lesson 3.4: Serverless Cloud Deployment with Seldon & Kubeflow on AWS
 - Chapter 4: Full Examples
     - (Lesson 4.1: Zero to Hero with ZenML - from Experimentation to Production-Grade MLOps)
     - (Lesson 4.2: More Examples - zenml example run and ZenFiles)
@@ -41,6 +39,7 @@ In the end, you will be able to take any of your ML models from experimentation 
     - (Materializers & skipping them)
     - (Lesson 3: Defining MLOps Stacks with ZenML? -> Profiles, Repos)
     - (Lesson 3.6: Running ZenML Steps on Specialized Hardware)
+    - Lesson 3.5: Continuous Deployment based on Data Drift Triggers
 - (missing functionality)
     - Model Registries
     - Explainability Tools
