@@ -17,22 +17,24 @@ In the end, you will be able to take any of your ML models from experimentation 
 
 ## :teacher: Syllabus
 
-- Chapter 1: ML Pipelines
+- Chapter 1: ML Pipeline Basics
     - Lesson 1.1: ML Pipelines with ZenML
     - Lesson 1.2: Artifact Versioning, Tracking, and Caching
-- Chapter 2: Transparency & Reproducibility
-    - Lesson 2.1: Experiment Tracking with W&B / MLflow
-    - Lesson 2.2: Data Drift Detection with Evidently / Whylabs
-    - (Lesson 2.3: Data Validation with DeepChecks / GreatExpectations)
-    - (Lesson 2.4: Feature Stores with Feast?)
-- Chapter 3: Deployment
-    - Lesson 3.1: Local Deployment & Inference with MLflow
-    - (Lesson 3.2: Model Serving with Seldon / BentoML?)
-    - Lesson 3.3: Serverless Deployment with Seldon & Kubeflow
-    - Lesson 3.4: Serverless Cloud Deployment with Seldon & Kubeflow on AWS
-- Chapter 4: Full Examples
-    - (Lesson 4.1: Zero to Hero with ZenML - from Experimentation to Production-Grade MLOps)
-    - (Lesson 4.2: More Examples - zenml example run and ZenFiles)
+- Chapter 2: Training, Deployment, and Serving
+    - Lesson 2.1: Experiment Tracking with MLflow / W&B
+    - Lesson 2.2: Local Deployment with MLflow
+    - Lesson 2.3: Inference Pipelines
+- Chapter 3: Data Management
+    - Lesson 3.1: Data Drift Detection with Evidently / Whylabs
+    - (Lesson 3.2: Data Validation with DeepChecks / GreatExpectations)
+    - (Lesson 3.3: Feature Stores with Feast?)
+- Chapter 4: Advanced Deployment
+    - (Lesson 4.1: Model Serving with Seldon / BentoML?)
+    - (Lesson 4.2: Serverless Deployment with Seldon & Kubeflow)
+    - Lesson 4.3: Serverless Cloud Deployment with Seldon & Kubeflow on AWS
+- Chapter 5: Full Examples
+    - (Lesson 5.1: Zero to Hero with ZenML - from Experimentation to Production-Grade MLOps)
+    - (Lesson 5.2: More Examples - zenml example run and ZenFiles)
 
 <!--
 - (unused)
