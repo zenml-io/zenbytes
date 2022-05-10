@@ -82,6 +82,8 @@ zenml integration install evidently -f
 zenml integration install mlflow -f
 zenml integration install kubeflow -f
 zenml integration install seldon -f
+zenml integration install s3 -f
+zenml integration install aws -f
 ```
 
 ### Additional Requirements
