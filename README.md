@@ -17,24 +17,25 @@ In the end, you will be able to take any of your ML models from experimentation 
 
 ## :teacher: Syllabus
 
-- Chapter 1: ML Pipeline Basics
+- Chapter 1: ML Pipelines and Stacks
     - Lesson 1.1: ML Pipelines with ZenML
     - Lesson 1.2: Artifact Versioning, Tracking, and Caching
+    - (Coming Soon: Choosing the Right Tools for your MLOps Stack)
 - Chapter 2: Training, Deployment, and Serving
     - Lesson 2.1: Experiment Tracking with MLflow / W&B
     - Lesson 2.2: Local Deployment with MLflow
     - Lesson 2.3: Inference Pipelines
 - Chapter 3: Data Management
     - Lesson 3.1: Data Drift Detection with Evidently / Whylabs
-    - (Lesson 3.2: Data Validation with DeepChecks / GreatExpectations)
-    - (Lesson 3.3: Feature Stores with Feast?)
+    - (Coming Soon: Data Validation with DeepChecks / Great Expectations)
+    <!-- (Coming Soon: Feature Stores with Feast) -->
 - Chapter 4: Advanced Deployment
-    - (Lesson 4.1: Model Serving with Seldon / BentoML?)
-    - (Lesson 4.2: Serverless Deployment with Seldon & Kubeflow)
-    - Lesson 4.3: Serverless Cloud Deployment with Seldon & Kubeflow on AWS
-- Chapter 5: Full Examples
+    - Lesson 4.1: Scalable Cloud Deployment with Seldon & Kubeflow on AWS
+    - (Coming Soon: Scalable Local Deployment with Seldon & Kubeflow)
+<!-- - Chapter 5: Full Examples
     - (Lesson 5.1: Zero to Hero with ZenML - from Experimentation to Production-Grade MLOps)
     - (Lesson 5.2: More Examples - zenml example run and ZenFiles)
+-->
 
 <!--
 - (unused)
@@ -70,24 +71,19 @@ If you enjoy these courses and want to learn more:
 - Jupyter notebook and ZenML: `pip install zenml notebook`
 
 ### Integrations
-As you progress through the course, you will need to install additional packages for the various other MLOps tools you are going to use.
+As you progress through the course, you will need to install additional
+packages for the various other MLOps tools we are going to use.
 You will find corresponding instructions in the respective notebooks,
-but we recommend you install all of the integrations ahead of time with the following commands:
+but we recommend you install all integrations ahead of time with the
+following command:
 
 ```bash
-zenml integration install sklearn -f
-zenml integration install dash -f
-zenml integration install wandb -f
-zenml integration install evidently -f
-zenml integration install mlflow -f
-zenml integration install kubeflow -f
-zenml integration install seldon -f
-zenml integration install s3 -f
-zenml integration install aws -f
+zenml integration install sklearn dash wandb evidently mlflow kubeflow seldon s3 aws -y
 ```
 
 ### Additional Requirements
-For some of the advanced lessons you also need to have the following additional packages installed on your machine:
+For the advanced deployment lessons in chapter 4 you will also need to have
+the following additional packages installed on your machine:
 
 | package  | MacOS installation                                                               | Linux installation                                                                 |
 |----------|----------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
