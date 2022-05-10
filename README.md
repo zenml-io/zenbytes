@@ -71,11 +71,13 @@ If you enjoy these courses and want to learn more:
 
 ### Integrations
 As you progress through the course, you will need to install additional packages for the various other MLOps tools you are going to use.
-You will find the corresponding commands in the respective notebooks. Or, you can install all of the integrations already with the following commands:
+You will find corresponding instructions in the respective notebooks,
+but we recommend you install all of the integrations ahead of time with the following commands:
 
 ```bash
 zenml integration install sklearn -f
 zenml integration install dash -f
+zenml integration install wandb -f
 zenml integration install evidently -f
 zenml integration install mlflow -f
 zenml integration install kubeflow -f
