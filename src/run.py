@@ -39,13 +39,13 @@ from steps.discord_bot import discord_alert
 from steps.dynamic_importer import dynamic_importer
 from steps.evaluator import evaluator
 from steps.importer import get_reference_data, importer
+from steps.mlflow_trainer import svc_trainer_mlflow
 from steps.mlflow_trainer import svc_trainer_mlflow as mlflow_svc_trainer_mlflow
 from steps.prediction_service_loader import (
     PredictionServiceLoaderStepConfig,
     prediction_service_loader,
 )
 from steps.predictor import predictor
-from steps.trainer import svc_trainer_mlflow
 
 
 @click.command()

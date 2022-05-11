@@ -17,6 +17,15 @@ In the end, you will be able to take any of your ML models from experimentation 
 
 ## :teacher: Syllabus
 
+| :dango: 1. ML Pipelines        | :recycle: 2. Training / Serving   | :file_folder: 3. Data Management  | :rocket: 4. Advanced Deployment |
+|------------------------|-------------------------|---------------------|------------------------|
+| [1.1 ML Pipelines]()       | [2.1 Experiment Tracking]() | [3.1 Drift Detection]() | [4.1 Cloud Deployment]()   |
+| [1.2 Artifact Lifecycle]() | [2.2 Local Deployment]()    |                     |                        |
+|                        | [2.3 Inference Pipelines]() |                     |                        |
+
+<!--
+### Syllabus Details:
+
 - Chapter 1: ML Pipelines and Stacks
     - Lesson 1.1: ML Pipelines with ZenML
     - Lesson 1.2: Artifact Versioning, Tracking, and Caching
@@ -28,16 +37,13 @@ In the end, you will be able to take any of your ML models from experimentation 
 - Chapter 3: Data Management
     - Lesson 3.1: Data Drift Detection with Evidently / Whylabs
     - (Coming Soon: Data Validation with DeepChecks / Great Expectations)
-    <!-- (Coming Soon: Feature Stores with Feast) -->
+     (Coming Soon: Feature Stores with Feast)
 - Chapter 4: Advanced Deployment
     - Lesson 4.1: Scalable Cloud Deployment with Seldon & Kubeflow on AWS
     - (Coming Soon: Scalable Local Deployment with Seldon & Kubeflow)
-<!-- - Chapter 5: Full Examples
+- Chapter 5: Full Examples
     - (Lesson 5.1: Zero to Hero with ZenML - from Experimentation to Production-Grade MLOps)
     - (Lesson 5.2: More Examples - zenml example run and ZenFiles)
--->
-
-<!--
 - (unused)
     - (Materializers & skipping them)
     - (Lesson 3: Defining MLOps Stacks with ZenML? -> Profiles, Repos)
@@ -78,7 +84,7 @@ but we recommend you install all integrations ahead of time with the
 following command:
 
 ```bash
-zenml integration install sklearn dash wandb evidently mlflow kubeflow seldon s3 aws -y
+zenml integration install sklearn dash wandb evidently mlflow kubeflow seldon s3 aws -f
 ```
 
 ### Additional Requirements
@@ -107,5 +113,5 @@ jupyter notebook
 #### 1. __MacOS__ When starting the container registry for Kubeflow, I get an error about port 5000 not being available.
 `OSError: [Errno 48] Address already in use`
 
-Solution: In order for Kubeflow to run, the docker container registry currently needs to be at port 5000. MacOS, however, uses 
+**Solution:** In order for Kubeflow to run, the docker container registry currently needs to be at port 5000. MacOS, however, uses 
 port 5000 for the Airplay receiver. Here is a guide on how to fix this [Freeing up port 5000](https://12ft.io/proxy?q=https%3A%2F%2Fanandtripathi5.medium.com%2Fport-5000-already-in-use-macos-monterey-issue-d86b02edd36c).
