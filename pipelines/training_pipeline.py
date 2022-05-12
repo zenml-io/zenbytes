@@ -19,7 +19,7 @@ def continuous_deployment_pipeline(
     """Links all the steps together in a pipeline"""
     X_train, X_test, y_train, y_test = importer()
     model = trainer(X_train=X_train, y_train=y_train)
-    evaluator(X_test=X_test, y_test=y_test, model=model)
+    test_acc = evaluator(X_test=X_test, y_test=y_test, model=model)
 
     reference, comparison = get_reference_data(X_train, X_test)
     drift_report, _ = drift_detector(reference, comparison)
@@ -27,5 +27,5 @@ def continuous_deployment_pipeline(
     alerter(drift_report)
 
     # new
-    deployment_decision = deployment_trigger(drift_report)
+    deployment_decision = deployment_trigger(test_acc)
     model_deployer(deployment_decision, model)
