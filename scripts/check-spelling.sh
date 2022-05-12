@@ -1,7 +1,7 @@
 #!/bin/sh -e
 set -x
 
-CODESPELL_SRC=${@:-"README.md *.ipynb src/"}
+CODESPELL_SRC=${@:-"README.md *.ipynb run.py steps/ pipelines/"}
 
 export ZENML_DEBUG=1
 export ZENML_ANALYTICS_OPT_IN=false

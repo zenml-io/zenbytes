@@ -1,7 +1,7 @@
 #!/bin/sh -e
 set -x
 
-SRC=${1:-"src"}
+SRC=${1:-"run.py steps/ pipelines/"}
 NOTEBOOKS=${@:-"*.ipynb"}
 
 export ZENML_DEBUG=1
