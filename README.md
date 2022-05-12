@@ -17,11 +17,13 @@ In the end, you will be able to take any of your ML models from experimentation 
 
 ## :teacher: Syllabus
 
+The series is organized in four chapters with several lessons each. Click on any of the links below to open the respective lesson directly in Colab.
+
 | :dango: 1. ML Pipelines        | :recycle: 2. Training / Serving   | :file_folder: 3. Data Management  | :rocket: 4. Advanced Deployment |
 |------------------------|-------------------------|---------------------|------------------------|
-| [1.1 ML Pipelines]()       | [2.1 Experiment Tracking]() | [3.1 Drift Detection]() | [4.1 Cloud Deployment]()   |
-| [1.2 Artifact Lifecycle]() | [2.2 Local Deployment]()    |                     |                        |
-|                        | [2.3 Inference Pipelines]() |                     |                        |
+| [1.1 ML Pipelines](https://colab.research.google.com/github/zenml-io/zenbytes/blob/main/1-1_Pipelines.ipynb)       | [2.1 Experiment Tracking](https://colab.research.google.com/github/zenml-io/zenbytes/blob/main/2-1_Experiment_Tracking.ipynb) | [3.1 Data Skew](https://colab.research.google.com/github/zenml-io/zenbytes/blob/main/3-1_Data_Skew.ipynb) | [4.1 Cloud Deployment](https://colab.research.google.com/github/zenml-io/zenbytes/blob/main/4-1_Cloud_Deployment.ipynb)   |
+| [1.2 Artifact Lifecycle](https://colab.research.google.com/github/zenml-io/zenbytes/blob/main/1-2_Artifact_Lineage.ipynb) | [2.2 Local Deployment](https://colab.research.google.com/github/zenml-io/zenbytes/blob/main/2-2_Local_Deployment.ipynb)    |                     |                        |
+|                        | [2.3 Inference Pipelines](https://colab.research.google.com/github/zenml-io/zenbytes/blob/main/2-3_Inference_Pipelines.ipynb) |                     |                        |
 
 <!--
 ### Syllabus Details:
