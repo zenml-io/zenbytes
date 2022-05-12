@@ -10,12 +10,11 @@ from zenml.pipelines import pipeline
     required_integrations=["seldon", "mlflow", "evidently"],
 )
 def inference_pipeline(
-    dynamic_importer,
+    inference_data_loader,
     prediction_service_loader,
     predictor,
 ):
-    """Create inference pipeline"""
-    # Link all the steps artifacts together
-    batch_data = dynamic_importer()
+    """Basic inference pipeline."""
+    inference_data = inference_data_loader()
     model_deployment_service = prediction_service_loader()
-    predictor(model_deployment_service, batch_data)
+    predictor(model_deployment_service, inference_data)

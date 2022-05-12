@@ -36,9 +36,9 @@ from pipelines.inference_pipeline import inference_pipeline
 from pipelines.training_pipeline import continuous_deployment_pipeline
 from steps.deployment_trigger import deployment_trigger
 from steps.discord_bot import discord_alert
-from steps.dynamic_importer import dynamic_importer
 from steps.evaluator import evaluator
 from steps.importer import get_reference_data, importer
+from steps.inference_data_loader import inference_data_loader
 from steps.mlflow_trainer import svc_trainer_mlflow
 from steps.mlflow_trainer import svc_trainer_mlflow as mlflow_svc_trainer_mlflow
 from steps.prediction_service_loader import (
@@ -162,7 +162,7 @@ def main(
 
         # Initialize an inference pipeline run
         inference = inference_pipeline(
-            dynamic_importer=dynamic_importer(),
+            dynamic_importer=inference_data_loader(),
             prediction_service_loader=prediction_service_loader(
                 config=PredictionServiceLoaderStepConfig(
                     pipeline_name=deployment_pipeline_name,

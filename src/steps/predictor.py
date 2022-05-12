@@ -7,11 +7,10 @@ from zenml.steps import Output, step
 def predictor(
     service: BaseService,
     data: np.ndarray,
-) -> Output(predictions=np.ndarray):
+) -> Output(predictions=list):
     """Run a inference request against a prediction service"""
-
     service.start(timeout=120)  # should be a NOP if already started
     prediction = service.predict(data)
-    # prediction = prediction.argmax(axis=-1)
-    print("Prediction: ", prediction)
-    return prediction
+    prediction = prediction.argmax(axis=-1)
+    print(f"Prediction is: {[prediction.tolist()]}")
+    return [prediction.tolist()]
