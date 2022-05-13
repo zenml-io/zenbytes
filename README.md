@@ -5,11 +5,11 @@ ZenBytes is a series of short practical MLOps lessons through [ZenML](https://gi
 ## :bulb: What you will learn
 - Define an MLOps stack tailored to your project requirements.
 - Build transparent and reproducible data-centric ML pipelines with automated artifact versioning, tracking, caching, and more.
-- Deploy ML pipelines with tooling and infrastructure of your choice (e.g. as serverless microservice in the cloud).
-- Monitor and address production issues like performance drift, data drift, and concept drift.
+- Deploy ML pipelines with tooling and infrastructure of your choice (e.g. as a serverless microservice in the cloud).
+- Monitor and address production issues like training-serving skew and data drift.
 - Use some of the most popular MLOps tools like ZenML, Kubeflow, MLflow, Weights & Biases, Evidently, Seldon, Feast, and many more.
 
-In the end, you will be able to take any of your ML models from experimentation to a customized, fully fleshed out production-grade MLOps setup in a matter of minutes!
+In the end, you will be able to take any of your ML models from experimentation to a customized, fully fleshed-out production-grade MLOps setup in a matter of minutes!
 
 <div align="center">
 <img src="_assets/sam.png" alt="Sam"/>
@@ -17,7 +17,7 @@ In the end, you will be able to take any of your ML models from experimentation 
 
 ## :teacher: Syllabus
 
-The series is organized in four chapters with several lessons each. Click on any of the links below to open the respective lesson directly in Colab.
+The series is structured into four chapters with several lessons each. Click on any of the links below to open the respective lesson directly in Colab.
 
 | :dango: 1. ML Pipelines        | :recycle: 2. Training / Serving   | :file_folder: 3. Data Management  | :rocket: 4. Advanced Deployment |
 |------------------------|-------------------------|---------------------|------------------------|
@@ -59,7 +59,7 @@ The series is organized in four chapters with several lessons each. Click on any
 -->
 
 ## :pray: About ZenML
-ZenML is an extensible, open-source MLOps framework to create production-ready ML pipelines. Built for data scientists, it has a simple, flexible syntax, is cloud- and tool-agnostic, and has interfaces/abstractions that are catered towards ML workflows. 
+ZenML is an extensible, open-source MLOps framework for creating production-ready ML pipelines. Built for data scientists, it has a simple, flexible syntax, is cloud- and tool-agnostic, and has interfaces/abstractions that are catered towards ML workflows.
 
 If you enjoy these courses and want to learn more:
 - Give the <a href="https://github.com/zenml-io/zenml/stargazers" target="_blank">
@@ -80,7 +80,7 @@ If you enjoy these courses and want to learn more:
 
 ### Integrations
 As you progress through the course, you will need to install additional
-packages for the various other MLOps tools we are going to use.
+packages for the various other MLOps tools we will use.
 You will find corresponding instructions in the respective notebooks,
 but we recommend you install all integrations ahead of time with the
 following command:
@@ -90,7 +90,7 @@ zenml integration install sklearn dash wandb evidently mlflow kubeflow seldon s3
 ```
 
 ### Additional Requirements
-For the advanced deployment lessons in chapter 4 you will also need to have
+For the advanced deployment lessons in chapter 4, you will also need to have
 the following additional packages installed on your machine:
 
 | package  | MacOS installation                                                               | Linux installation                                                                 |
@@ -101,7 +101,7 @@ the following additional packages installed on your machine:
 
 ## :rocket: Getting Started
 
-If you haven't done so already, clone ZenBytes to your local machine. Then, simply use Jupyter Notebook to go through the course lesson-by-lesson, starting with `1-1_Pipelines.ipynb`:
+If you haven't done so already, clone ZenBytes to your local machine. Then, use Jupyter Notebook to go through the course lesson-by-lesson, starting with `1-1_Pipelines.ipynb`:
 
 
 ```bash
@@ -112,8 +112,20 @@ jupyter notebook
 
 ## :question: FAQ
 
-#### 1. __MacOS__ When starting the container registry for Kubeflow, I get an error about port 5000 not being available.
+
+#### 1. ZenML cannot find a component even though I have it in my stack
+Updating or switching your ZenML stack is sometimes not immediately 
+loaded in Jupyter notebooks.
+
+**Solution:** First, make sure you really have the correct component installed
+and registered in your currently active stack with `zenml stack describe`.
+If the component is indeed there, **restart the kernel** of your Jupyter notebook,
+which will also reload the stack.
+
+#### 2. __MacOS__ When starting the container registry for Kubeflow, I get an error about port 5000 not being available.
 `OSError: [Errno 48] Address already in use`
 
-**Solution:** In order for Kubeflow to run, the docker container registry currently needs to be at port 5000. MacOS, however, uses 
+**Solution:** For Kubeflow to run, the docker container registry currently needs to be at port 5000. MacOS, however, uses 
 port 5000 for the Airplay receiver. Here is a guide on how to fix this [Freeing up port 5000](https://12ft.io/proxy?q=https%3A%2F%2Fanandtripathi5.medium.com%2Fport-5000-already-in-use-macos-monterey-issue-d86b02edd36c).
+
+
