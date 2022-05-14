@@ -14,7 +14,20 @@
 from datetime import datetime
 
 import click
+from pipelines.inference_pipeline import inference_pipeline
+from pipelines.training_pipeline import continuous_deployment_pipeline
 from rich import print
+from steps.deployment_trigger import deployment_trigger
+from steps.discord_bot import discord_alert
+from steps.evaluator import evaluator
+from steps.importer import get_reference_data, importer
+from steps.inference_data_loader import inference_data_loader
+from steps.prediction_service_loader import (
+    PredictionServiceLoaderStepConfig,
+    prediction_service_loader,
+)
+from steps.predictor import predictor
+from steps.sklearn_trainer import svc_trainer
 from zenml.integrations.evidently.steps import (
     EvidentlyProfileConfig,
     EvidentlyProfileStep,
@@ -31,20 +44,6 @@ from zenml.integrations.seldon.steps import (
 )
 from zenml.pipelines import Schedule
 from zenml.repository import Repository
-
-from pipelines.inference_pipeline import inference_pipeline
-from pipelines.training_pipeline import continuous_deployment_pipeline
-from steps.deployment_trigger import deployment_trigger
-from steps.discord_bot import discord_alert
-from steps.evaluator import evaluator
-from steps.importer import get_reference_data, importer
-from steps.inference_data_loader import inference_data_loader
-from steps.prediction_service_loader import (
-    PredictionServiceLoaderStepConfig,
-    prediction_service_loader,
-)
-from steps.predictor import predictor
-from steps.sklearn_trainer import svc_trainer
 
 
 @click.command()
