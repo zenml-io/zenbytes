@@ -86,7 +86,7 @@ but we recommend you install all integrations ahead of time with the
 following command:
 
 ```bash
-zenml integration install sklearn dash wandb evidently mlflow kubeflow seldon s3 aws -f
+zenml integration install sklearn dash wandb evidently mlflow kubeflow seldon s3 aws -y
 ```
 
 ### Additional Requirements
