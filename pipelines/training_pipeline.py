@@ -19,7 +19,7 @@ def train_evaluate_deploy_pipeline(
 
 @pipeline(
     enable_cache=False,
-    requirements_file="../requirements.txt",
+    requirements=["zenml"],
     required_integrations=["seldon", "mlflow", "evidently"],
 )
 def continuous_deployment_pipeline(

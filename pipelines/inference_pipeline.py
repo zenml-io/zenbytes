@@ -1,12 +1,9 @@
 from zenml.pipelines import pipeline
 
-# Path to a pip requirements file that contains requirements necessary to run
-# the pipeline
-
 
 @pipeline(
     enable_cache=False,
-    requirements_file="../requirements.txt",
+    requirements=["zenml"],
     required_integrations=["seldon", "mlflow", "evidently"],
 )
 def inference_pipeline(
