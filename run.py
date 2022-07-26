@@ -17,7 +17,7 @@ import click
 from rich import print
 from zenml.integrations.evidently.steps import (
     EvidentlyProfileConfig,
-    EvidentlyProfileStep,
+    evidently_profile_step,
 )
 from zenml.integrations.mlflow.steps import (
     MLFlowDeployerConfig,
@@ -108,7 +108,7 @@ def main(
         model_name = "model"
 
     evidently_profile_config = EvidentlyProfileConfig(
-        column_mapping=None, profile_sections=["datadrift"]
+        profile_sections=["datadrift"]
     )
 
     if deploy:
@@ -139,8 +139,9 @@ def main(
             evaluator=evaluator(),
             # EvidentlyProfileStep takes reference_dataset and comparison dataset
             get_reference_data=get_reference_data(),
-            drift_detector=EvidentlyProfileStep(
-                config=evidently_profile_config
+            drift_detector=evidently_profile_step(
+                step_name="evidently_drift_detector",
+                config=evidently_profile_config,
             ),
             # Add discord
             alerter=discord_alert(),
