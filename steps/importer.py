@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
-from zenml.integrations.sklearn.helpers.digits import get_digits
+from sklearn.datasets import load_digits
+from sklearn.model_selection import train_test_split
 from zenml.steps import Output, step
 
 
@@ -9,7 +10,11 @@ def importer() -> Output(
     X_train=np.ndarray, X_test=np.ndarray, y_train=np.ndarray, y_test=np.ndarray
 ):
     """Loads the digits array as normal numpy arrays."""
-    X_train, X_test, y_train, y_test = get_digits()
+    digits = load_digits()
+    data = digits.images.reshape((len(digits.images), -1))
+    X_train, X_test, y_train, y_test = train_test_split(
+        data, digits.target, test_size=0.2, shuffle=False
+    )
     return X_train, X_test, y_train, y_test
 
 
