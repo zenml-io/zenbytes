@@ -6,8 +6,6 @@ ZenBytes is a series of short practical MLOps lessons through [ZenML](https://gi
 
 The release of ZenML 0.20.0 marks a big breaking change in ZenML history, and requires an equally big update to this repository. The ZenML team is working on this renovation as we speak, and will bring you a brand-new ZenBytes with the latest ZenML soon!
 
-Till then, please use the version of ZenML indicated in the `pyproject.toml` to run through the chapters. The basic concepts and premise of these chapters will remain true even with the upgrade.
-
 ## :bulb: What you will learn
 - Define an MLOps stack tailored to your project requirements.
 - Build transparent and reproducible data-centric ML pipelines with automated artifact versioning, tracking, caching, and more.
