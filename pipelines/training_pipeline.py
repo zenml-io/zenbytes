@@ -17,11 +17,7 @@ def train_evaluate_deploy_pipeline(
     model_deployer(deployment_decision, model)  # new
 
 
-@pipeline(
-    enable_cache=False,
-    requirements=["zenml"],
-    required_integrations=["seldon", "mlflow", "evidently"],
-)
+@pipeline(enable_cache=False)
 def continuous_deployment_pipeline(
     importer,
     trainer,

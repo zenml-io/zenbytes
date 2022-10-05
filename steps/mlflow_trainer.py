@@ -3,12 +3,10 @@ import numpy as np
 from sklearn.base import ClassifierMixin
 from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
-from zenml.integrations.mlflow.mlflow_step_decorator import enable_mlflow
 from zenml.steps import step
 
 
-@enable_mlflow  # setup MLflow
-@step(enable_cache=False)
+@step(enable_cache=False, experiment_tracker="mlflow_tracker")
 def svc_trainer_mlflow(
     X_train: np.ndarray,
     y_train: np.ndarray,
@@ -20,8 +18,7 @@ def svc_trainer_mlflow(
     return model
 
 
-@enable_mlflow  # setup MLflow
-@step(enable_cache=False)
+@step(enable_cache=False, experiment_tracker="mlflow_tracker")
 def tree_trainer_with_mlflow(
     X_train: np.ndarray,
     y_train: np.ndarray,
