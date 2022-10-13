@@ -23,9 +23,9 @@ In the end, you will be able to take any of your ML models from experimentation 
 
 The series is structured into four chapters with several lessons each. Click on any of the links below to open the respective lesson directly in Colab.
 
-| :dango: 1. ML Pipelines        | :recycle: 2. Training / Serving   | :file_folder: 3. Data Management  | :rocket: 4. Advanced Deployment |
+| :dango: 1. ML Pipelines        | :recycle: 2. Training / Serving   | :file_folder: 3. Data Management  | :rocket: More Coming Soon! |
 |------------------------|-------------------------|---------------------|------------------------|
-| [1.1 ML Pipelines](https://colab.research.google.com/github/zenml-io/zenbytes/blob/main/1-1_Pipelines.ipynb)       | [2.1 Experiment Tracking](https://colab.research.google.com/github/zenml-io/zenbytes/blob/main/2-1_Experiment_Tracking.ipynb) | [3.1 Data Skew](https://colab.research.google.com/github/zenml-io/zenbytes/blob/main/3-1_Data_Skew.ipynb) | [4.1 Cloud Deployment](https://colab.research.google.com/github/zenml-io/zenbytes/blob/main/4-1_Cloud_Deployment.ipynb)   |
+| [1.1 ML Pipelines](https://colab.research.google.com/github/zenml-io/zenbytes/blob/main/1-1_Pipelines.ipynb)       | [2.1 Experiment Tracking](https://colab.research.google.com/github/zenml-io/zenbytes/blob/main/2-1_Experiment_Tracking.ipynb) | [3.1 Data Skew](https://colab.research.google.com/github/zenml-io/zenbytes/blob/main/3-1_Data_Skew.ipynb) |    |
 | [1.2 Artifact Lifecycle](https://colab.research.google.com/github/zenml-io/zenbytes/blob/main/1-2_Artifact_Lineage.ipynb) | [2.2 Local Deployment](https://colab.research.google.com/github/zenml-io/zenbytes/blob/main/2-2_Local_Deployment.ipynb)    |                     |                        |
 |                        | [2.3 Inference Pipelines](https://colab.research.google.com/github/zenml-io/zenbytes/blob/main/2-3_Inference_Pipelines.ipynb) |                     |                        |
 
@@ -90,23 +90,14 @@ but we recommend you install all integrations ahead of time with the
 following command:
 
 ```bash
-zenml integration install sklearn dash wandb evidently mlflow kubeflow seldon s3 aws -y
+zenml integration install sklearn wandb evidently mlflow -y
 ```
-
-### Additional Requirements
-For the advanced deployment lessons in chapter 4, you will also need to have
-the following additional packages installed on your machine:
-
-| package  | MacOS installation                                                               | Linux installation                                                                 |
-|----------|----------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
-| docker   | [Docker Desktop for Mac](https://docs.docker.com/desktop/mac/install/)           | [Docker Engine for Linux ](https://docs.docker.com/engine/install/ubuntu/)         |
-| kubectl  | [kubectl for mac](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/) | [kubectl for linux](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/) |
-| k3d      | [Brew Installation of k3d](https://formulae.brew.sh/formula/k3d)                 | [k3d installation linux](https://k3d.io/v5.2.2/)                                   |
 
 ## :rocket: Getting Started
 
-If you haven't done so already, clone ZenBytes to your local machine. Then, use Jupyter Notebook to go through the course lesson-by-lesson, starting with `1-1_Pipelines.ipynb`:
-
+If you haven't done so already, clone ZenBytes to your local machine. 
+Then, use Jupyter Notebook to go through the course lesson-by-lesson, starting 
+with `1-1_Pipelines.ipynb`:
 
 ```bash
 git clone https://github.com/zenml-io/zenbytes
@@ -125,11 +116,3 @@ loaded in Jupyter notebooks.
 and registered in your currently active stack with `zenml stack describe`.
 If the component is indeed there, **restart the kernel** of your Jupyter notebook,
 which will also reload the stack.
-
-#### 2. __MacOS__ When starting the container registry for Kubeflow, I get an error about port 5000 not being available.
-`OSError: [Errno 48] Address already in use`
-
-**Solution:** For Kubeflow to run, the docker container registry currently needs to be at port 5000. MacOS, however, uses 
-port 5000 for the Airplay receiver. Here is a guide on how to fix this [Freeing up port 5000](https://12ft.io/proxy?q=https%3A%2F%2Fanandtripathi5.medium.com%2Fport-5000-already-in-use-macos-monterey-issue-d86b02edd36c).
-
-
