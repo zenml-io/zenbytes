@@ -49,7 +49,7 @@ The series is structured into four chapters with several lessons each. Click on 
     - (Coming Soon: Scalable Local Deployment with Seldon & Kubeflow)
 - Chapter 5: Full Examples
     - (Lesson 5.1: Zero to Hero with ZenML - from Experimentation to Production-Grade MLOps)
-    - (Lesson 5.2: More Examples - zenml example run and ZenFiles)
+    - (Lesson 5.2: More Examples - zenml example run and ZenML Projects)
 - (unused)
     - (Materializers & skipping them)
     - (Lesson 3: Defining MLOps Stacks with ZenML? -> Profiles, Repos)
