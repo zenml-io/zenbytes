@@ -12,7 +12,7 @@ def svc_trainer(
     X_train: np.ndarray,
     y_train: np.ndarray,
 ) -> ClassifierMixin:
-    """Train a sklearn SVC classifier."""
+    """Train an sklearn SVC classifier."""
     model = SVC(gamma=0.001)
     model.fit(X_train, y_train)
     return model
@@ -23,7 +23,7 @@ def tree_trainer(
     X_train: np.ndarray,
     y_train: np.ndarray,
 ) -> ClassifierMixin:
-    """Train a sklearn decision tree classifier."""
+    """Train an sklearn decision tree classifier."""
     model = DecisionTreeClassifier()
     model.fit(X_train, y_train)
     return model
