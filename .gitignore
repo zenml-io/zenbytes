@@ -133,6 +133,7 @@ dmypy.json
 
 # for wandb
 mlruns
+wandb/
 
 # poetry
 *poetry.lock*
