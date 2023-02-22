@@ -77,7 +77,7 @@ If you enjoy these courses and want to learn more:
 ### System Requirements
 
 - Linux or MacOS
-- Python 3.7, 3.8 or 3.9
+- Python 3.7, 3.8, 3.9, or 3.10
 - Jupyter notebook and ZenML: `pip install zenml notebook`
 
 ### Integrations
