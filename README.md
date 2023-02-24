@@ -4,10 +4,6 @@
 
 ZenBytes is a series of short practical MLOps lessons through [ZenML](https://github.com/zenml-io/zenml) and its various integrations. It is intended for people looking to learn about MLOps generally, and also for ML practitioners who want to get started with ZenML.
 
-## :triangular_flag_on_post: ZenML 0.20.0 chapters coming soon!
-
-The release of ZenML 0.20.0 marks a big breaking change in ZenML history, and requires an equally big update to this repository. The ZenML team is working on this renovation as we speak, and will bring you a brand-new ZenBytes with the latest ZenML soon!
-
 ## :bulb: What you will learn
 - Define an MLOps stack tailored to your project requirements.
 - Build transparent and reproducible data-centric ML pipelines with automated artifact versioning, tracking, caching, and more.
@@ -81,7 +77,7 @@ If you enjoy these courses and want to learn more:
 ### System Requirements
 
 - Linux or MacOS
-- Python 3.7 or 3.8
+- Python 3.7, 3.8, 3.9, or 3.10
 - Jupyter notebook and ZenML: `pip install zenml notebook`
 
 ### Integrations
