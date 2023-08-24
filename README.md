@@ -1,9 +1,7 @@
-# IMPORTANT NOTE: THIS REPOSITORY IS GOING TO BE DEPRECATED AFTER 01/08/2023. 
-***Please consider the impact it might have on your ongoing work and plan accordingly.***
+# THIS REPOSITORY IS GOING TO BE DEPRECATED AFTER 01/08/2023. 
 
-We are working hard to provide the best onboarding experience to you. To support that ultimate goal we are reshaping these projects into the `examples` of the core ZenML package!
-
-More technical details about this will follow shortly.
+We are now offering ZenML Project Templates - a configurable way to rocketstart your ZenML journey!
+For more details about templates you can use `zenml init --help`.
 
 <img referrerpolicy="no-referrer-when-downgrade" src="https://static.scarf.sh/a.png?x-pxid=1c4d6e78-8ebe-44c4-95b5-c6ccd610cfdf" />
 
